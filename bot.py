@@ -22,7 +22,6 @@ async def on_ready():
 async def hello(interaction: discord.Interaction):
     await interaction.response.send_message("Hello!")
 
-
 # Load all cogs (command files) from the cogs folder
 async def load_extensions():
     cogs_folder = os.path.join(os.path.dirname(__file__), "cogs")

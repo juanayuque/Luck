@@ -10,7 +10,7 @@ OUTFIT_PRESETS = {
     "study": "0,0,1053651,0,1022285,1005015,0,0,1082000,0,0,0,0",
 }
 
-# 1:shoes, 2:, 3: Overall, 4: Face accessory, 5: Eye accessory, 6: Hat, 7: Weapon, 8: Earrings, 9: Gloves, 10: Cape
+# 0:shoes, 1:, 2: Overall, 3: Face accessory, 4: Eye accessory, 5: Hat, 6: Weapon, 7: Earrings, 8: Gloves, 9: Cape
 
 class Dress(commands.Cog):
     def __init__(self, bot):

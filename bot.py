@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import os
 from config import TOKEN  # Store your bot token in config.py
+import asyncio
 
 # Enable intents
 intents = discord.Intents.default()
@@ -37,5 +38,6 @@ async def main():
     await load_extensions()
     await bot.start(TOKEN)
 
-import asyncio
-asyncio.run(main())
+
+if __name__ == "__main__":
+    asyncio.run(main())

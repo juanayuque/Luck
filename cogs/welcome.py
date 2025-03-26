@@ -147,7 +147,7 @@ class Welcome(commands.Cog):
         print(f"[DEBUG] Modified Items: {items_part}")
 
         # Randomly choose an animation type
-        animation_type = random.choice(["walk1", "walk2", "fly"])
+        animation_type = random.choice(["stand1", "stand2", "walk1", "walk2", "fly"])
         print(f"[DEBUG] Selected animation: {animation_type}")
 
         # Reconstruct the character animation API URL

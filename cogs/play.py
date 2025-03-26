@@ -13,18 +13,22 @@ DB_PATH = 'database.db'
 SONGS_DIR = 'songs'
 os.makedirs(SONGS_DIR, exist_ok=True)
 
-# YouTube DL options
 ytdl_format_options = {
     'format': 'bestaudio/best',
-    'outtmpl': f'{SONGS_DIR}/%(extractor)s-%(id)s-%(title)s.%(ext)s',
+    'outtmpl': 'songs/%(extractor)s-%(id)s-%(title)s.%(ext)s',
     'restrictfilenames': True,
     'noplaylist': True,
     'nocheckcertificate': True,
     'ignoreerrors': False,
+    'logtostderr': False,
     'quiet': True,
     'no_warnings': True,
     'default_search': 'auto',
     'source_address': '0.0.0.0',
+    'cookiefile': 'cookies.txt',
+    'sleep_interval': 5,  # Minimum wait of 5 seconds
+    'max_sleep_interval': 10,  # Maximum wait of 15 seconds
+    'throttled-rate': '10000K',  # Limit download speed to 100 KB/s
 }
 
 ffmpeg_options = {'options': '-vn'}
@@ -53,48 +57,14 @@ class YTDLSource(discord.PCMVolumeTransformer):
 class MusicPlayer(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.bot.loop.create_task(self.init_db())
 
-    async def init_db(self):
-        """Initialize the database tables"""
-        async with aiosqlite.connect(DB_PATH) as db:
-            await db.execute('''
-                CREATE TABLE IF NOT EXISTS playlist (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    guild_id TEXT NOT NULL,
-                    url TEXT NOT NULL,
-                    title TEXT NOT NULL
-                )
-            ''')
-            await db.execute('''
-                CREATE TABLE IF NOT EXISTS downloaded_songs (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    guild_id TEXT NOT NULL,
-                    url TEXT NOT NULL,
-                    title TEXT NOT NULL,
-                    filename TEXT NOT NULL,
-                    last_played TIMESTAMP NOT NULL
-                )
-            ''')
-            await db.commit()
+    async def cog_unload(self):
+        for vc in self.bot.voice_clients:
+            await vc.disconnect()
 
-    # Slash command version
-    @app_commands.command(name="play", description="Play audio from YouTube")
-    async def play_slash(self, interaction: discord.Interaction, url: str):
-        """Slash command to play audio"""
-        await interaction.response.defer()
-        ctx = await commands.Context.from_interaction(interaction)
-        await self._play(ctx, url)
-
-    # Prefix command version
-    @commands.command(name="play")
-    async def play_prefix(self, ctx, *, url: str):
-        """Prefix command to play audio"""
-        await self._play(ctx, url)
-
-    # Common play logic
-    async def _play(self, ctx, url):
-        """Shared play functionality for both command types"""
+    @commands.command()
+    async def play(self, ctx, url):
+        """Play audio from YouTube"""
         guild_id = str(ctx.guild.id)
 
         if ctx.author.voice is None:
@@ -129,8 +99,7 @@ class MusicPlayer(commands.Cog):
 
         async with aiosqlite.connect(DB_PATH) as db:
             if ctx.voice_client.is_playing():
-                await db.execute('INSERT INTO playlist (guild_id, url, title) VALUES (?, ?, ?)', 
-                                (guild_id, url, song_title))
+                await db.execute('INSERT INTO playlist (guild_id, url, title) VALUES (?, ?, ?)', (guild_id, url, song_title))
                 await db.commit()
                 await self.show_playlist(ctx, new_song=song_title)
             else:
@@ -139,18 +108,24 @@ class MusicPlayer(commands.Cog):
 
         await self.store_downloaded_song(ctx, url, song_title, filename)
 
-    # Slash command version
-    @app_commands.command(name="queue", description="Show the current playlist")
-    async def queue_slash(self, interaction: discord.Interaction):
-        """Slash command to show queue"""
-        ctx = await commands.Context.from_interaction(interaction)
-        await self.show_playlist(ctx)
+    async def play_next(self, ctx):
+        """Play the next song in the queue"""
+        voice_client = ctx.voice_client
+        if not voice_client:
+            return
 
-    # Prefix command version
-    @commands.command(name="queue")
-    async def queue_prefix(self, ctx):
-        """Prefix command to show queue"""
-        await self.show_playlist(ctx)
+        async with aiosqlite.connect(DB_PATH) as db:
+            cursor = await db.execute('SELECT url, title FROM playlist WHERE guild_id = ? ORDER BY id LIMIT 1', (str(ctx.guild.id),))
+            next_song = await cursor.fetchone()
+            
+            if next_song:
+                url, title = next_song
+                await db.execute('DELETE FROM playlist WHERE url = ?', (url,))
+                await db.commit()
+                
+                player = await YTDLSource.from_url(url, loop=self.bot.loop)
+                voice_client.play(player, after=lambda e: asyncio.run_coroutine_threadsafe(self.play_next(ctx), self.bot.loop))
+                await ctx.send(f"▶️ Now playing: **{title}**")
 
     async def show_playlist(self, ctx, new_song=None):
         """Show the current playlist"""
@@ -165,27 +140,19 @@ class MusicPlayer(commands.Cog):
         
         await ctx.send(message)
 
-    # Slash command version
-    @app_commands.command(name="leave", description="Leave the voice channel")
-    async def leave_slash(self, interaction: discord.Interaction):
-        """Slash command to leave voice"""
-        ctx = await commands.Context.from_interaction(interaction)
-        await self._leave(ctx)
+    async def store_downloaded_song(self, ctx, url, title, filename):
+        """Store the downloaded song for future use"""
+        async with aiosqlite.connect(DB_PATH) as db:
+            await db.execute('INSERT INTO downloaded_songs (guild_id, url, title, filename, last_played) VALUES (?, ?, ?, ?, ?)',
+                             (str(ctx.guild.id), url, title, filename, datetime.utcnow()))
+            await db.commit()
 
-    # Prefix command version
-    @commands.command(name="leave")
-    async def leave_prefix(self, ctx):
-        """Prefix command to leave voice"""
-        await self._leave(ctx)
-
-    # Common leave logic
-    async def _leave(self, ctx):
-        """Shared leave functionality"""
+    @commands.command()
+    async def leave(self, ctx):
+        """Leave the voice channel"""
         if ctx.voice_client:
             await ctx.voice_client.disconnect()
             await ctx.send("Left the voice channel.")
-
-    # Other methods remain the same (play_next, store_downloaded_song, etc.)
 
 async def setup(bot):
     await bot.add_cog(MusicPlayer(bot))

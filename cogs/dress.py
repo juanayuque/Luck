@@ -2,7 +2,9 @@ import discord
 import requests
 import urllib.parse
 from bs4 import BeautifulSoup
+from discord import app_commands
 from discord.ext import commands
+
 
 OUTFIT_PRESETS = {
     "moo": "0,0,1053263,0,1022285,1002877,1703278,0,1082233,0,0,0,0",

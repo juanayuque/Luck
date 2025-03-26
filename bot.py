@@ -7,6 +7,7 @@ import asyncio
 # Enable intents
 intents = discord.Intents.default()
 intents.message_content = True  # Enable message content intent
+bot = commands.Bot(command_prefix="!", intents=intents)
 
 # Sync the command tree
 @bot.event

@@ -18,19 +18,28 @@ class Dress(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    async def outfit_autocomplete(self, interaction: discord.Interaction, current: str):
+    async def outfit_autocomplete(
+        self, interaction: discord.Interaction, current: str
+    ) -> list[app_commands.Choice[str]]:
         """Provides outfit name suggestions while typing."""
         return [
             app_commands.Choice(name=key, value=key)
             for key in OUTFIT_PRESETS.keys()
             if current.lower() in key.lower()
-        ]
+        ][:25]  # Discord limits choices to 25 items
 
-    @app_commands.command(name="dress", description="Dresses up the selected character with special outfits")
+    @app_commands.command(
+        name="dress", description="Dresses up the selected character with special outfits"
+    )
     @app_commands.autocomplete(outfit=outfit_autocomplete)
-    async def dress_character(self, interaction: discord.Interaction, ign: str, outfit: str):
+    async def dress_character(
+        self, interaction: discord.Interaction, ign: str, outfit: str
+    ):
         if outfit not in OUTFIT_PRESETS:
-            await interaction.response.send_message(f"❌ Invalid outfit! Available outfits: {', '.join(OUTFIT_PRESETS.keys())}", ephemeral=True)
+            await interaction.response.send_message(
+                f"❌ Invalid outfit! Available outfits: {', '.join(OUTFIT_PRESETS.keys())}",
+                ephemeral=True,
+            )
             return
 
         await interaction.response.defer()

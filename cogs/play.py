@@ -13,22 +13,18 @@ DB_PATH = 'database.db'
 SONGS_DIR = 'songs'
 os.makedirs(SONGS_DIR, exist_ok=True)
 
+# YouTube DL options
 ytdl_format_options = {
     'format': 'bestaudio/best',
-    'outtmpl': 'songs/%(extractor)s-%(id)s-%(title)s.%(ext)s',
+    'outtmpl': f'{SONGS_DIR}/%(extractor)s-%(id)s-%(title)s.%(ext)s',
     'restrictfilenames': True,
     'noplaylist': True,
     'nocheckcertificate': True,
     'ignoreerrors': False,
-    'logtostderr': False,
     'quiet': True,
     'no_warnings': True,
     'default_search': 'auto',
     'source_address': '0.0.0.0',
-    'cookiefile': 'cookies.txt',
-    'sleep_interval': 5,  # Minimum wait of 5 seconds
-    'max_sleep_interval': 10,  # Maximum wait of 15 seconds
-    'throttled-rate': '10000K',  # Limit download speed to 100 KB/s
 }
 
 ffmpeg_options = {'options': '-vn'}

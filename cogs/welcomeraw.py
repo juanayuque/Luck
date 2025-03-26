@@ -182,54 +182,28 @@ class welcomeraw(commands.Cog):
         raise Exception(f"Failed to download valid GIF after {self.max_retries} attempts")
 
     async def combine_gifs_horizontally(self, gif_paths):
-        """Combine multiple GIFs horizontally with proper frame handling"""
+        """Combine multiple GIFs horizontally while aligning them to the ground."""
         try:
-            # Open all GIFs and verify they have frames
-            gifs = []
-            for path in gif_paths:
-                try:
-                    gif = Image.open(path)
-                    gif.seek(0)
-                    gif.seek(1)  # Verify at least 2 frames exist
-                    gif.seek(0)  # Return to first frame
-                    gifs.append(gif)
-                except Exception as e:
-                    print(f"[ERROR] Invalid GIF at {path}: {e}")
-                    for g in gifs:
-                        g.close()
-                    return None
-
-            # Determine the minimum number of frames across all GIFs
+            gifs = [Image.open(path) for path in gif_paths]
             min_frames = min(gif.n_frames for gif in gifs)
-            print(f"[DEBUG] Combining {len(gifs)} GIFs with {min_frames} frames each")
-
-            # Process each frame
+            max_height = max(gif.size[1] for gif in gifs)  # Find tallest GIF
+            
             frames = []
             for frame_idx in range(min_frames):
-                try:
-                    combined_frame = None
-                    for gif in gifs:
-                        gif.seek(frame_idx)
-                        frame = gif.convert("RGBA")
-                        
-                        if combined_frame is None:
-                            combined_frame = frame
-                        else:
-                            new_width = combined_frame.width + frame.width
-                            new_height = max(combined_frame.height, frame.height)
-                            new_frame = Image.new("RGBA", (new_width, new_height))
-                            
-                            new_frame.paste(combined_frame, (0, 0))
-                            new_frame.paste(frame, (combined_frame.width, 0), frame)
-                            combined_frame = new_frame
+                combined_width = sum(gif.size[0] for gif in gifs)  # Total width of combined image
+                new_frame = Image.new("RGBA", (combined_width, max_height))  # Base frame
+                
+                x_offset = 0
+                for gif in gifs:
+                    gif.seek(frame_idx)
+                    frame = gif.convert("RGBA")
                     
-                    if combined_frame:
-                        frames.append(combined_frame)
-                except Exception as e:
-                    print(f"[WARNING] Error processing frame {frame_idx}: {e}")
-                    continue
+                    y_offset = max_height - frame.size[1]  # Align to bottom
+                    new_frame.paste(frame, (x_offset, y_offset), frame)
+                    x_offset += frame.size[0]
+                
+                frames.append(new_frame)
 
-            # Close all input GIFs
             for gif in gifs:
                 gif.close()
 
@@ -237,7 +211,6 @@ class welcomeraw(commands.Cog):
                 print("[ERROR] No valid frames were combined")
                 return None
 
-            # Save combined GIF
             final_gif_path = "combined_welcome.gif"
             frames[0].save(
                 final_gif_path,

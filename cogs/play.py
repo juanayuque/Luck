@@ -70,7 +70,11 @@ class MusicPlayer(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self._setup_logging()
-        self.bot.loop.create_task(self.init_db())
+        # Removed the loop.create_task call from here
+
+    async def setup_hook(self):
+        """Async initialization"""
+        await self.init_db()
 
     def _setup_logging(self):
         """Configure logging for VPS"""
@@ -187,4 +191,6 @@ class MusicPlayer(commands.Cog):
     # ... (rest of your methods with similar logging added)
 
 async def setup(bot):
-    await bot.add_cog(MusicPlayer(bot))
+    cog = MusicPlayer(bot)
+    await cog.setup_hook()  # Call the async setup
+    await bot.add_cog(cog)

@@ -10,34 +10,26 @@ import traceback
 from datetime import datetime
 from discord.ext import commands
 
-# Enhanced Configuration
+# Configuration
 DB_PATH = 'database.db'
 SONGS_DIR = 'songs'
 os.makedirs(SONGS_DIR, exist_ok=True)
 
-# More robust YTDL options
+# YouTube DL options
 ytdl_format_options = {
     'format': 'bestaudio/best',
-    'outtmpl': 'songs/%(extractor)s-%(id)s-%(title)s.%(ext)s',
+    'outtmpl': f'{SONGS_DIR}/%(extractor)s-%(id)s-%(title)s.%(ext)s',
     'restrictfilenames': True,
     'noplaylist': True,
     'nocheckcertificate': True,
     'ignoreerrors': False,
-    'logtostderr': False,
     'quiet': True,
     'no_warnings': True,
     'default_search': 'auto',
     'source_address': '0.0.0.0',
-    'cookiefile': 'cookies.txt',
-    'sleep_interval': 5,  # Minimum wait of 5 seconds
-    'max_sleep_interval': 10,  # Maximum wait of 15 seconds
-    'throttled-rate': '10000K',  # Limit download speed to 100 KB/s
 }
 
-ffmpeg_options = {
-    'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
-    'options': '-vn -loglevel warning'
-}
+ffmpeg_options = {'options': '-vn'}
 
 ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
 
@@ -86,6 +78,10 @@ class MusicPlayer(commands.Cog):
         """Initialize database with error handling"""
         try:
             async with aiosqlite.connect(DB_PATH) as db:
+                # Enable foreign key support
+                await db.execute("PRAGMA foreign_keys = ON")
+                
+                # Create tables if they don't exist
                 await db.execute('''
                     CREATE TABLE IF NOT EXISTS playlist (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -94,6 +90,7 @@ class MusicPlayer(commands.Cog):
                         title TEXT NOT NULL
                     )
                 ''')
+                
                 await db.execute('''
                     CREATE TABLE IF NOT EXISTS downloaded_songs (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -101,11 +98,17 @@ class MusicPlayer(commands.Cog):
                         url TEXT NOT NULL,
                         title TEXT NOT NULL,
                         filename TEXT NOT NULL,
-                        last_played TIMESTAMP NOT NULL
+                        last_played TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                     )
                 ''')
+                
+                # Try to add missing columns if they don't exist
+                try:
+                    await db.execute('ALTER TABLE downloaded_songs ADD COLUMN last_played TIMESTAMP DEFAULT CURRENT_TIMESTAMP')
+                except aiosqlite.OperationalError:
+                    pass  # Column already exists
+                    
                 await db.commit()
-            print("Database initialized successfully")
         except Exception as e:
             print(f"Database initialization failed: {str(e)}")
             traceback.print_exc()
@@ -189,7 +192,51 @@ class MusicPlayer(commands.Cog):
             traceback.print_exc()
             await ctx.send(f"🔥 Critical error occurred: {str(e)}")
 
-    # ... (rest of your methods with similar logging added)
+    async def play_next(self, ctx):
+        """Play the next song in the queue"""
+        voice_client = ctx.voice_client
+        if not voice_client:
+            return
+
+        async with aiosqlite.connect(DB_PATH) as db:
+            cursor = await db.execute('SELECT url, title FROM playlist WHERE guild_id = ? ORDER BY id LIMIT 1', (str(ctx.guild.id),))
+            next_song = await cursor.fetchone()
+            
+            if next_song:
+                url, title = next_song
+                await db.execute('DELETE FROM playlist WHERE url = ?', (url,))
+                await db.commit()
+                
+                player = await YTDLSource.from_url(url, loop=self.bot.loop)
+                voice_client.play(player, after=lambda e: asyncio.run_coroutine_threadsafe(self.play_next(ctx), self.bot.loop))
+                await ctx.send(f"▶️ Now playing: **{title}**")
+
+    async def show_playlist(self, ctx, new_song=None):
+        """Show the current playlist"""
+        async with aiosqlite.connect(DB_PATH) as db:
+            cursor = await db.execute('SELECT title FROM playlist WHERE guild_id = ? ORDER BY id', (str(ctx.guild.id),))
+            queue = await cursor.fetchall()
+        
+        if queue:
+            message = "**Current Queue:**\n" + "\n".join(f"{i+1}. {title}" for i, (title,) in enumerate(queue))
+        else:
+            message = "The queue is empty."
+        
+        await ctx.send(message)
+
+    async def store_downloaded_song(self, ctx, url, title, filename):
+        """Store the downloaded song for future use"""
+        async with aiosqlite.connect(DB_PATH) as db:
+            await db.execute('INSERT INTO downloaded_songs (guild_id, url, title, filename, last_played) VALUES (?, ?, ?, ?, ?)',
+                             (str(ctx.guild.id), url, title, filename, datetime.utcnow()))
+            await db.commit()
+
+    @commands.command()
+    async def leave(self, ctx):
+        """Leave the voice channel"""
+        if ctx.voice_client:
+            await ctx.voice_client.disconnect()
+            await ctx.send("Left the voice channel.")
 
 async def setup(bot):
     cog = MusicPlayer(bot)

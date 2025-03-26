@@ -90,12 +90,12 @@ class welcomeraw(commands.Cog):
     def generate_welcome_message(self, characters):
         """Generate grammatically correct welcome message"""
         if len(characters) == 1:
-            return f"Welcome {characters[0]}!"
+            return f"{characters[0]}!"
         elif len(characters) == 2:
-            return f"Welcome {characters[0]} and {characters[1]}!"
+            return f"{characters[0]} and {characters[1]}!"
         else:
             names_except_last = ", ".join(characters[:-1])
-            return f"Welcome {names_except_last}, and {characters[-1]}!"
+            return f"{names_except_last}, and {characters[-1]}!"
 
     async def process_character(self, ign: str):
         """Process a single character with retries and timeouts"""

@@ -46,12 +46,13 @@ class Dress(commands.Cog):
         await interaction.response.defer()
         
         # Check if the outfit is valid
-        if outfit.lower() not in OUTFIT_PRESETS:
+        if outfit.casefold() not in (key.casefold() for key in OUTFIT_PRESETS):
             await interaction.followup.send(
-                "Invalid outfit choice! Available options: moo, benji, study.",
-                ephemeral=True
+                f"❌ Invalid outfit! Available outfits: {', '.join(OUTFIT_PRESETS.keys())}",
+                ephemeral=True,
             )
             return
+
         
         # Construct the base URL for the character
         base_url = f"https://dreamms.gg/?stats={ign}"

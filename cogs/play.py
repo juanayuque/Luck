@@ -62,10 +62,8 @@ class MusicPlayer(commands.Cog):
         for vc in self.bot.voice_clients:
             await vc.disconnect()
 
-    @app_commands.command(name="play", description="Play audio from YouTube")
-    async def play(self, interaction: discord.Interaction, url: str):
-        """Play audio from YouTube"""
-        ctx = await commands.Context.from_interaction(interaction)
+    @commands.command()
+    async def play(self, ctx, url):
         """Play audio from YouTube"""
         guild_id = str(ctx.guild.id)
 

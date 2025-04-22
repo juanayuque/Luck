@@ -386,53 +386,50 @@ class MusicPlayer(commands.Cog):
             await ctx.send(f"🔥 Critical error occurred: {str(e)}")
 
     async def play_next(self, ctx):
-        """Play the next song in the queue"""
-        voice_client = ctx.voice_client
-        if not voice_client:
-            return
+            try:
+                async with aiosqlite.connect(DB_PATH) as db:
+                    cursor = await db.execute('''
+                        SELECT url, title 
+                        FROM playlist 
+                        WHERE guild_id = ? 
+                        ORDER BY id ASC LIMIT 1
+                    ''', (str(ctx.guild.id),))
+                    next_song = await cursor.fetchone()
 
-        try:
-            async with aiosqlite.connect(DB_PATH) as db:
-                cursor = await db.execute('''
-                    SELECT url, title 
-                    FROM playlist 
-                    WHERE guild_id = ? 
-                    ORDER BY id ASC LIMIT 1
-                ''', (str(ctx.guild.id),))
-                next_song = await cursor.fetchone()
+                    if not next_song:
+                        await ctx.send("📭 Queue is empty.")
+                        return
 
-                if not next_song:
-                    await ctx.send("📭 Queue is empty.")
-                    return
+                    url, title = next_song
 
-                url, title = next_song
+                    # Fetch local file info
+                    cursor = await db.execute('SELECT filename FROM downloaded_songs WHERE url = ?', (url,))
+                    result = await cursor.fetchone()
 
-                # Fetch local file info
-                cursor = await db.execute('SELECT filename FROM downloaded_songs WHERE url = ?', (url,))
-                result = await cursor.fetchone()
+                    if result and os.path.exists(result[0]):
+                        filename = result[0]
+                        await db.execute('DELETE FROM playlist WHERE guild_id = ? AND url = ?', (str(ctx.guild.id), url))
+                        await db.commit()
 
-                if result and os.path.exists(result[0]):
-                    filename = result[0]
-                    await db.execute('DELETE FROM playlist WHERE guild_id = ? AND url = ?', (str(ctx.guild.id), url))
-                    await db.commit()
+                        # Create player using local file
+                        source = discord.FFmpegPCMAudio(filename, **ffmpeg_options)
+                        player = YTDLSource(source, data={"title": title}, filename=filename)
 
-                    # Create player using local file
-                    source = discord.FFmpegPCMAudio(filename, **ffmpeg_options)
-                    player = YTDLSource(source, data={"title": title}, filename=filename)
+                        ctx.voice_client.play(player, after=lambda e: asyncio.run_coroutine_threadsafe(
+                            self.play_next(ctx), self.bot.loop))
 
-                    ctx.voice_client.play(player, after=lambda e: asyncio.run_coroutine_threadsafe(
-                        self.play_next(ctx), self.bot.loop))
+                        await ctx.send(f"▶️ Now playing from cache: **{title}**")
+                    else:
+                        await ctx.send(f"❌ Local file not found for {title}. Skipping...")
+                        await db.execute('DELETE FROM playlist WHERE guild_id = ? AND url = ?', (str(ctx.guild.id), url))
+                        await db.commit()
+                        await self.play_next(ctx)
 
-                    await ctx.send(f"▶️ Now playing from cache: **{title}**")
-                else:
-                    await ctx.send(f"❌ Local file not found for {title}. Skipping...")
-                    await db.execute('DELETE FROM playlist WHERE guild_id = ? AND url = ?', (str(ctx.guild.id), url))
-                    await db.commit()
-                    await self.play_next(ctx)
+            except Exception as e:
+                await ctx.send(f"❌ Error playing next song: {str(e)}")
+                traceback.print_exc()
 
-    except Exception as e:
-        await ctx.send(f"❌ Error playing next song: {str(e)}")
-        traceback.print_exc()
+
 
     async def update_queue_message(self, ctx, force_new=False):
         """Update or resend the queue message with interactive buttons"""

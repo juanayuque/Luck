@@ -385,68 +385,50 @@ class MusicPlayer(commands.Cog):
             traceback.print_exc()
             await ctx.send(f"🔥 Critical error occurred: {str(e)}")
 
-    async def play_next(self, ctx):
-        """Play the next song in the queue"""
-        voice_client = ctx.voice_client
-        if not voice_client:
-            return
+   async def play_next(self, ctx):
+    try:
+        async with aiosqlite.connect(DB_PATH) as db:
+            cursor = await db.execute('''
+                SELECT url, title 
+                FROM playlist 
+                WHERE guild_id = ? 
+                ORDER BY id ASC LIMIT 1
+            ''', (str(ctx.guild.id),))
+            next_song = await cursor.fetchone()
 
-        try:
-            async with aiosqlite.connect(DB_PATH) as db:
-                # Get next song with full URL
-                cursor = await db.execute('''
-                    SELECT p.url, p.title, d.filename 
-                    FROM playlist p
-                    LEFT JOIN downloaded_songs d ON p.url = d.url
-                    WHERE p.guild_id = ?
-                    ORDER BY p.id LIMIT 1
-                ''', (str(ctx.guild.id),))
-                next_song = await cursor.fetchone()
-                
-                if next_song:
-                    url, title, filename = next_song
-                    
-                    # Remove from queue
-                    await db.execute('DELETE FROM playlist WHERE url = ? AND guild_id = ?', 
-                                (url, str(ctx.guild.id)))
-                    await db.commit()
-                    
-                    # Check if file exists
-                    if filename and os.path.exists(filename):
-                        # Use cached file
-                        data = await self.bot.loop.run_in_executor(
-                            None, 
-                            lambda: ytdl.extract_info(url, download=False)
-                        )
-                        player = YTDLSource(
-                            discord.FFmpegPCMAudio(filename, **ffmpeg_options),
-                            data=data,
-                            filename=filename
-                        )
-                        await db.execute(
-                            'UPDATE downloaded_songs SET last_played = ? WHERE url = ?',
-                            (datetime.utcnow(), url)
-                        )
-                        await db.commit()
-                    else:
-                        # Download if not cached
-                        player = await YTDLSource.from_url(url, loop=self.bot.loop)
-                        await self.store_downloaded_song(ctx, url, title, player.filename)
-                    
-                    # Play the song
-                    voice_client.play(
-                        player,
-                        after=lambda e: asyncio.run_coroutine_threadsafe(
-                            self.play_next(ctx), self.bot.loop)
-                    )
-                    
-                    await ctx.send(f"▶️ Now playing: **{title}**")
-                    await self.update_queue_message(ctx)
-                    
-        except Exception as e:
-            await self.log(f"Error in play_next: {str(e)}")
-            traceback.print_exc()
-            await ctx.send(f"❌ Error playing next song: {str(e)}")
+            if not next_song:
+                await ctx.send("📭 Queue is empty.")
+                return
+
+            url, title = next_song
+
+            # Fetch local file info
+            cursor = await db.execute('SELECT filename FROM downloaded_songs WHERE url = ?', (url,))
+            result = await cursor.fetchone()
+
+            if result and os.path.exists(result[0]):
+                filename = result[0]
+                await db.execute('DELETE FROM playlist WHERE guild_id = ? AND url = ?', (str(ctx.guild.id), url))
+                await db.commit()
+
+                # Create player using local file
+                source = discord.FFmpegPCMAudio(filename, **ffmpeg_options)
+                player = YTDLSource(source, data={"title": title}, filename=filename)
+
+                ctx.voice_client.play(player, after=lambda e: asyncio.run_coroutine_threadsafe(
+                    self.play_next(ctx), self.bot.loop))
+
+                await ctx.send(f"▶️ Now playing from cache: **{title}**")
+            else:
+                await ctx.send(f"❌ Local file not found for {title}. Skipping...")
+                await db.execute('DELETE FROM playlist WHERE guild_id = ? AND url = ?', (str(ctx.guild.id), url))
+                await db.commit()
+                await self.play_next(ctx)
+
+    except Exception as e:
+        await ctx.send(f"❌ Error playing next song: {str(e)}")
+        traceback.print_exc()
+
 
     async def update_queue_message(self, ctx, force_new=False):
         """Update or resend the queue message with interactive buttons"""

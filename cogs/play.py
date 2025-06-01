@@ -17,7 +17,7 @@ os.makedirs(SONGS_DIR, exist_ok=True)
 
 # YouTube DL options
 ytdl_format_options = {
-    'format': 'bestaudio/best',
+    'format': 'bestaudio[ext=m4a]/bestaudio/best',
     'outtmpl': 'songs/%(extractor)s-%(id)s-%(title)s.%(ext)s',
     'restrictfilenames': True,
     'noplaylist': True,

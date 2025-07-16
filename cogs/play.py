@@ -38,6 +38,8 @@ ffmpeg_options = {'options': '-vn'}
 
 ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
 
+vc = ctx.voice_client
+
 class YTDLSource(discord.PCMVolumeTransformer):
     def __init__(self, source, *, data, filename, volume=0.5):
         super().__init__(source, volume)
@@ -290,10 +292,14 @@ class MusicPlayer(commands.Cog):
                 
                 await self.update_queue_message(ctx, force_new=True)
                 
-                if not ctx.voice_client:
-                    await ctx.author.voice.channel.connect()
-                
-                if not ctx.voice_client.is_playing():
+                if not vc:
+                    vc = await ctx.author.voice.channel.connect()
+
+                if not vc or not vc.is_connected():
+                    await ctx.send("❌ Failed to connect to the voice channel.")
+                    return
+
+                if not vc.is_playing():
                     await self.play_next(ctx)
         
         except ValueError:
@@ -321,11 +327,17 @@ class MusicPlayer(commands.Cog):
             if ctx.voice_client is None:
                 await self.log("Connecting to voice channel...")
                 channel = ctx.author.voice.channel
-                await channel.connect()
+                vc = await channel.connect()
+                if vc is None or not vc.is_connected():
+                    await ctx.send("❌ Failed to connect to the voice channel.")
+                    return
                 await self.log(f"Connected to {channel}")
-            elif ctx.voice_client.channel != ctx.author.voice.channel:
-                await self.log(f"Moving from {ctx.voice_client.channel} to {ctx.author.voice.channel}")
-                await ctx.voice_client.move_to(ctx.author.voice.channel)
+            else:
+                vc = ctx.voice_client
+                if vc.channel != ctx.author.voice.channel:
+                    await self.log(f"Moving from {vc.channel} to {ctx.author.voice.channel}")
+                    await vc.move_to(ctx.author.voice.channel)
+    
 
             # Use a single database connection for the entire operation
             async with aiosqlite.connect(DB_PATH) as db:

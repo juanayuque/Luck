@@ -38,7 +38,6 @@ ffmpeg_options = {'options': '-vn'}
 
 ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
 
-vc = ctx.voice_client
 
 class YTDLSource(discord.PCMVolumeTransformer):
     def __init__(self, source, *, data, filename, volume=0.5):
@@ -291,7 +290,7 @@ class MusicPlayer(commands.Cog):
                     await ctx.send(f"✅ Queued {len(songs)} songs!")
                 
                 await self.update_queue_message(ctx, force_new=True)
-                
+                vc = ctx.voice_client
                 if not vc:
                     vc = await ctx.author.voice.channel.connect()
 
@@ -322,7 +321,7 @@ class MusicPlayer(commands.Cog):
                 return await ctx.send("You are not in a voice channel.")
 
             await self.log(f"User in voice channel: {ctx.author.voice.channel}")
-
+            vc = ctx.voice_client
             # Voice client handling
             if ctx.voice_client is None:
                 await self.log("Connecting to voice channel...")

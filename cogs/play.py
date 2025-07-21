@@ -329,6 +329,7 @@ class MusicPlayer(commands.Cog):
                 await self.log("Attempting to connect to voice channel...")
                 try:
                     vc = await channel.connect()
+                    ctx.voice_client = vc
                     await self.log(f"Successfully connected to {channel}")
                 except discord.ClientException as e:
                     await ctx.send("❌ Already connected to a voice channel.")

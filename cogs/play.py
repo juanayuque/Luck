@@ -309,42 +309,45 @@ class MusicPlayer(commands.Cog):
 
     @commands.command()
     async def play(self, ctx, url):
-        """Play audio from YouTube with enhanced debugging"""
-        await self.log(f"Play command invoked by {ctx.author} in {ctx.guild.name} with URL: {url}")
+        await self.log(f"Play command invoked by {interaction.user} in {interaction.guild.name} with URL: {url}")
+        await interaction.response.defer() # Defer the response as this command can take time
 
         try:
-            guild_id = str(ctx.guild.id)
+            guild_id = str(interaction.guild.id)
 
             # Voice channel checks
-            if ctx.author.voice is None:
+            if interaction.user.voice is None:
                 await self.log("User not in voice channel")
-                return await ctx.send("You are not in a voice channel.")
+                await interaction.followup.send("You are not in a voice channel.")
+                return
 
-            channel = ctx.author.voice.channel
+            channel = interaction.user.voice.channel
             await self.log(f"User in voice channel: {channel}")
-            vc = ctx.voice_client
+            
+            # Get the voice client for the guild
+            vc = interaction.guild.voice_client 
 
             # Voice client handling
             if vc is None:
                 await self.log("Attempting to connect to voice channel...")
                 try:
                     vc = await channel.connect()
-                    ctx.voice_client = vc
+                    # No need for interaction.voice_client = vc; Discord.py manages this.
                     await self.log(f"Successfully connected to {channel}")
                 except discord.ClientException as e:
-                    await ctx.send("❌ Already connected to a voice channel.")
+                    await interaction.followup.send("❌ Already connected to a voice channel.")
                     await self.log(f"ClientException: {e}")
                     return
                 except discord.Forbidden as e:
-                    await ctx.send("❌ I don't have permission to connect to the voice channel.")
+                    await interaction.followup.send("❌ I don't have permission to connect to the voice channel.")
                     await self.log(f"Permission error: {e}")
                     return
                 except discord.HTTPException as e:
-                    await ctx.send("❌ Failed to connect due to network error.")
+                    await interaction.followup.send("❌ Failed to connect due to network error.")
                     await self.log(f"HTTP error during connect: {e}")
                     return
                 except Exception as e:
-                    await ctx.send(f"❌ Unexpected error while connecting: {e}")
+                    await interaction.followup.send(f"❌ Unexpected error while connecting: {e}")
                     await self.log(f"Unexpected error during connect: {e}")
                     return
             else:
@@ -352,13 +355,23 @@ class MusicPlayer(commands.Cog):
                     await self.log(f"Moving from {vc.channel} to {channel}")
                     await vc.move_to(channel)
 
+            # Ensure vc is not None after connection attempts
+            if vc is None:
+                await self.log("Voice client is None after connection attempt. Aborting.")
+                await interaction.followup.send("❌ Could not establish a voice connection.")
+                return
+
             # Use a single database connection for the entire operation
-            async with aiosqlite.connect(DB_PATH) as db:
+            async with aiosqlite.connect(self.DB_PATH) as db:
                 await db.execute("PRAGMA journal_mode=WAL")
                 
                 # Check cache first
                 cursor = await db.execute('SELECT filename FROM downloaded_songs WHERE url = ?', (url,))
                 cached = await cursor.fetchone()
+
+                song_title = None
+                filename = None
+                player = None
 
                 if cached and os.path.exists(cached[0]):
                     await self.log(f"Using cached file for {url}")
@@ -366,44 +379,63 @@ class MusicPlayer(commands.Cog):
                     await db.execute('UPDATE downloaded_songs SET last_played = ? WHERE url = ?', 
                                 (datetime.utcnow(), url))
                     await db.commit()
+                    
+                    # Extract info without downloading for metadata
                     data = await self.bot.loop.run_in_executor(None, 
-                        lambda: ytdl.extract_info(url, download=False))
-                    player = YTDLSource(discord.FFmpegPCMAudio(filename, **ffmpeg_options), 
-                                data=data, filename=filename)
-                    song_title = player.title
-                else:
-                    async with ctx.typing():
-                        if ctx.voice_client.is_playing():
-                            delay = random.randint(7, 15)
-                            await self.log(f"Already playing, waiting {delay} seconds")
-                            await asyncio.sleep(delay)
-                        
-                        await self.log(f"Downloading {url} (not in cache)")
-                        player = await YTDLSource.from_url(url, loop=self.bot.loop)
+                        lambda: self.ytdl.extract_info(url, download=False))
+                    
+                    if data:
+                        player = YTDLSource(discord.FFmpegPCMAudio(filename, **self.ffmpeg_options), 
+                                    data=data, filename=filename)
                         song_title = player.title
-                        filename = player.filename
-                        await db.execute('INSERT INTO downloaded_songs (guild_id, url, title, filename, last_played) VALUES (?, ?, ?, ?, ?)',
-                                    (guild_id, url, song_title, filename, datetime.utcnow()))
-                        await db.commit()
+                    else:
+                        await self.log(f"Could not extract info for cached URL: {url}. Re-downloading.")
+                        # Fall through to the else block to re-download
+                        cached = None # Force re-download
+
+                if not cached: # If not cached or cached info failed
+                    await interaction.followup.send(f"Downloading {url}...") # Inform user about download
+                    await self.log(f"Downloading {url} (not in cache or cache invalid)")
+                    
+                    # Use interaction.followup.send for user feedback during long operations
+                    # No need for ctx.typing() with deferred response
+                    
+                    if vc.is_playing(): # Use vc, not ctx.voice_client
+                        delay = random.randint(7, 15)
+                        await self.log(f"Already playing, waiting {delay} seconds")
+                        await asyncio.sleep(delay)
+                    
+                    player = await YTDLSource.from_url(url, loop=self.bot.loop, ytdl=self.ytdl) # Pass ytdl instance
+                    song_title = player.title
+                    filename = player.filename
+                    await db.execute('INSERT INTO downloaded_songs (guild_id, url, title, filename, last_played) VALUES (?, ?, ?, ?, ?)',
+                                (guild_id, url, song_title, filename, datetime.utcnow()))
+                    await db.commit()
 
                 # Playback handling
-                if ctx.voice_client.is_playing():
+                if vc.is_playing(): # Use vc, not ctx.voice_client
                     await self.log(f"Adding to queue: {song_title}")
                     await db.execute('INSERT INTO playlist (guild_id, url, title) VALUES (?, ?, ?)', 
                                     (guild_id, url, song_title))
                     await db.commit()
-                    await self.show_playlist(ctx, new_song=song_title)
+                    await self.show_playlist(interaction, new_song=song_title) # Pass interaction
+                    await interaction.followup.send(f'🎶 Added to queue: **{song_title}**')
                 else:
                     await self.log(f"Starting playback: {song_title}")
-                    ctx.voice_client.play(player, after=lambda e: asyncio.run_coroutine_threadsafe(
-                        self.play_next(ctx), self.bot.loop))
-                    await ctx.send(f'▶️ Now playing: **{song_title}**')
+                    vc.play(player, after=lambda e: asyncio.run_coroutine_threadsafe(
+                        self.play_next(interaction), self.bot.loop)) # Pass interaction
+                    await interaction.followup.send(f'▶️ Now playing: **{song_title}**')
 
         except Exception as e:
             error_msg = f"Critical error in play command: {type(e).__name__}: {str(e)}"
             await self.log(error_msg)
-            traceback.print_exc()
-            await ctx.send(f"🔥 Critical error occurred: {str(e)}")
+            traceback.print_exc() # This will print the full traceback to your console/logs
+            
+            # Ensure a response is sent even on error
+            if interaction.response.is_done():
+                await interaction.followup.send(f"🔥 Critical error occurred: {str(e)}")
+            else:
+                await interaction.response.send_message(f"🔥 Critical error occurred: {str(e)}")
 
     async def play_next(self, ctx):
             try:

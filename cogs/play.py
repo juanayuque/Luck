@@ -320,49 +320,57 @@ class MusicPlayer(commands.Cog):
                 await self.log("User not in voice channel")
                 return await ctx.send("You are not in a voice channel.")
 
-            await self.log(f"User in voice channel: {ctx.author.voice.channel}")
+            channel = ctx.author.voice.channel
+            await self.log(f"User in voice channel: {channel}")
             vc = ctx.voice_client
+
             # Voice client handling
-            if ctx.voice_client is None:
-                await self.log("Connecting to voice channel...")
-                channel = ctx.author.voice.channel
-                vc = await channel.connect()
-                if vc is None or not vc.is_connected():
-                    await ctx.send("❌ Failed to connect to the voice channel.")
+            if vc is None:
+                await self.log("Attempting to connect to voice channel...")
+                try:
+                    vc = await channel.connect()
+                    await self.log(f"Successfully connected to {channel}")
+                except discord.ClientException as e:
+                    await ctx.send("❌ Already connected to a voice channel.")
+                    await self.log(f"ClientException: {e}")
                     return
-                await self.log(f"Connected to {channel}")
+                except discord.Forbidden as e:
+                    await ctx.send("❌ I don't have permission to connect to the voice channel.")
+                    await self.log(f"Permission error: {e}")
+                    return
+                except discord.HTTPException as e:
+                    await ctx.send("❌ Failed to connect due to network error.")
+                    await self.log(f"HTTP error during connect: {e}")
+                    return
+                except Exception as e:
+                    await ctx.send(f"❌ Unexpected error while connecting: {e}")
+                    await self.log(f"Unexpected error during connect: {e}")
+                    return
             else:
-                vc = ctx.voice_client
-                if vc.channel != ctx.author.voice.channel:
-                    await self.log(f"Moving from {vc.channel} to {ctx.author.voice.channel}")
-                    await vc.move_to(ctx.author.voice.channel)
-    
+                if vc.channel != channel:
+                    await self.log(f"Moving from {vc.channel} to {channel}")
+                    await vc.move_to(channel)
 
             # Use a single database connection for the entire operation
             async with aiosqlite.connect(DB_PATH) as db:
-                # Enable WAL mode for better concurrency
                 await db.execute("PRAGMA journal_mode=WAL")
                 
                 # Check cache first
                 cursor = await db.execute('SELECT filename FROM downloaded_songs WHERE url = ?', (url,))
                 cached = await cursor.fetchone()
-                
+
                 if cached and os.path.exists(cached[0]):
                     await self.log(f"Using cached file for {url}")
                     filename = cached[0]
-                    # Update last_played timestamp
                     await db.execute('UPDATE downloaded_songs SET last_played = ? WHERE url = ?', 
                                 (datetime.utcnow(), url))
                     await db.commit()
-                    
-                    # Extract info without downloading
                     data = await self.bot.loop.run_in_executor(None, 
                         lambda: ytdl.extract_info(url, download=False))
                     player = YTDLSource(discord.FFmpegPCMAudio(filename, **ffmpeg_options), 
                                 data=data, filename=filename)
                     song_title = player.title
                 else:
-                    # Only download if not in cache
                     async with ctx.typing():
                         if ctx.voice_client.is_playing():
                             delay = random.randint(7, 15)

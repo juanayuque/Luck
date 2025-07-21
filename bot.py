@@ -1,15 +1,18 @@
 import discord
 from discord.ext import commands
 import os
-from config import TOKEN  # Store your bot token in config.py
 import asyncio
+from dotenv import load_dotenv # Import load_dotenv
+
+# Load environment variables (e.g., your bot token)
+load_dotenv()
+TOKEN = os.getenv('DISCORD_BOT_TOKEN') # Get token from .env
 
 # Enable intents
 intents = discord.Intents.default()
 intents.message_content = True  # Enable message content intent for commands
 intents.voice_states = True     # Essential for music bot functionality
 intents.guilds = True           # Required for guild-specific operations
-
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
@@ -35,6 +38,12 @@ async def on_ready():
                 import traceback
                 traceback.print_exc()
     print('------')
+
+
+# Define a simple slash command (if you want to keep it)
+@bot.tree.command(name="hello", description="Say hello!")
+async def hello(interaction: discord.Interaction):
+    await interaction.response.send_message("Hello!")
 
 # Run the bot
 async def main():

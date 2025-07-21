@@ -70,6 +70,9 @@ class MusicPlayer(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self._setup_logging()
+        self.ytdl = youtube_dl.YoutubeDL(ytdl_format_options) # Correctly initialize instance ytdl
+        self.ffmpeg_options = ffmpeg_options # Make ffmpeg_options available via self
+        self.DB_PATH = DB_PATH # <<< --- THIS IS THE MISSING LINE! --- >>>
         self.queue_messages = {}  # Track queue messages per guild
         self.song_list_messages = {}  # For tracking song list messages
 

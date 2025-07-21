@@ -192,6 +192,16 @@ class MusicPlayer(commands.Cog):
                 try:
                     vc = await channel.connect()
                     await self.log(f"Successfully connected to {channel}")
+                    
+                    # --- NEW: Add a small delay and re-check connection ---
+                    await asyncio.sleep(0.5) # Wait for half a second
+                    if not vc.is_connected():
+                        await self.log("DEBUG: Voice client immediately disconnected after connect(). Aborting.")
+                        await ctx.send("❌ I connected briefly but then lost connection. Please try again.")
+                        return
+                    await self.log("DEBUG: Voice client still connected after 0.5s delay.")
+                    # --- END NEW ---
+
                 except (discord.ClientException, discord.Forbidden, discord.HTTPException) as e:
                     await ctx.send(f"❌ Failed to connect to voice channel: {e}")
                     await self.log(f"Error connecting: {e}")
@@ -204,18 +214,21 @@ class MusicPlayer(commands.Cog):
                 if vc.channel != channel:
                     await self.log(f"Moving from {vc.channel} to {channel}")
                     await vc.move_to(channel)
+                    # --- NEW: Add a small delay after move_to and re-check connection ---
+                    await asyncio.sleep(0.5) # Wait for half a second
+                    if not vc.is_connected():
+                        await self.log("DEBUG: Voice client immediately disconnected after move_to(). Aborting.")
+                        await ctx.send("❌ I moved channels but then lost connection. Please try again.")
+                        return
+                    await self.log("DEBUG: Voice client still connected after move_to and 0.5s delay.")
+                    # --- END NEW ---
 
-            if vc is None:
-                await self.log("Voice client is None after connection attempt. Aborting.")
-                await ctx.send("❌ Could not establish a voice connection.")
-                return
 
-            # --- NEW DEBUGGING CHECKS HERE ---
+            # The existing check here is still good, but the one above is more immediate
             if not vc.is_connected():
-                await self.log("DEBUG: Voice client reports NOT connected right before player creation.")
+                await self.log("DEBUG: Voice client reports NOT connected right before player creation (secondary check).")
                 await ctx.send("❌ I connected, but then immediately lost connection. Please try again.")
                 return
-            # --- END NEW DEBUGGING CHECKS ---
 
             song_title = None
             player = None
@@ -233,7 +246,6 @@ class MusicPlayer(commands.Cog):
                     lambda: self.ytdl_instance.extract_info(url, download=False))
                 
                 if data:
-                    # --- NEW DEBUGGING CHECKS HERE ---
                     await self.log(f"DEBUG: Cached filename: {filename}")
                     if not os.path.exists(filename):
                         await self.log(f"ERROR: Cached file '{filename}' does not exist despite initial check.")
@@ -243,7 +255,6 @@ class MusicPlayer(commands.Cog):
                         cached_filename_result = None # Force re-download
                     else:
                         await self.log(f"DEBUG: Cached file '{filename}' exists and is readable.")
-                    # --- END NEW DEBUGGING CHECKS ---
 
                     if cached_filename_result: # Re-check if it's still valid after new checks
                         player = YTDLSource(discord.FFmpegPCMAudio(filename, **config.FFMPEG_OPTIONS), 
@@ -264,23 +275,20 @@ class MusicPlayer(commands.Cog):
                         await self.log(f"Already playing, waiting {delay} seconds before download.")
                         await asyncio.sleep(delay)
                     
-                    # Pass this cog's YTDL instance to YTDLSource.from_url
                     player = await YTDLSource.from_url(url, loop=self.bot.loop, ytdl_instance=self.ytdl_instance)
                     song_title = player.title
                     filename = player.filename # Assign filename from new download
                     await self.db_manager.upsert_downloaded_song(guild_id, url, song_title, player.filename)
 
-            # --- NEW DEBUGGING CHECKS HERE ---
             if player is None:
                 await self.log("ERROR: Player object is None after all attempts to create it.")
                 await ctx.send("❌ Failed to prepare audio source. Cannot play this song.")
                 return
             
             if not vc.is_connected(): # Check again right before playing
-                await self.log("DEBUG: Voice client reports NOT connected right before vc.play().")
+                await self.log("DEBUG: Voice client reports NOT connected right before vc.play(). (Final check)") # Renamed for clarity
                 await ctx.send("❌ I lost connection right before trying to play. Please try again.")
                 return
-            # --- END NEW DEBUGGING CHECKS ---
 
             if vc.is_playing(): 
                 await self.log(f"Adding to queue: {song_title}")
@@ -292,7 +300,7 @@ class MusicPlayer(commands.Cog):
                 try:
                     vc.play(player, after=lambda e: asyncio.run_coroutine_threadsafe(
                         self.play_next(ctx), self.bot.loop))
-                    await self.log(f"DEBUG: Playback initiated successfully for {song_title} using file: {filename}") # Added filename to log
+                    await self.log(f"DEBUG: Playback initiated successfully for {song_title} using file: {filename}")
                 except Exception as play_error:
                     await self.log(f"ERROR: Exception during vc.play() for {song_title}: {play_error}")
                     traceback.print_exc()

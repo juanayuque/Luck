@@ -1,0 +1,585 @@
+[2025-03-26 20:29:43] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=iI34LYmJ1Fs
+[2025-03-26 20:29:43] User in voice channel: General
+[2025-03-26 20:29:43] Connecting to voice channel...
+[2025-03-26 20:29:43] Critical error in play command: RuntimeError: PyNaCl library needed in order to use voice
+[2025-03-26 20:30:28] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=iI34LYmJ1Fs
+[2025-03-26 20:30:28] User in voice channel: General
+[2025-03-26 20:30:28] Connecting to voice channel...
+[2025-03-26 20:30:29] Connected to General
+[2025-03-26 20:30:29] Starting download for https://www.youtube.com/watch?v=iI34LYmJ1Fs
+[2025-03-26 20:30:31] YouTube DL Error: [0;31mERROR:[0m [youtube] iI34LYmJ1Fs: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies
+[2025-03-26 20:31:23] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=iI34LYmJ1Fs
+[2025-03-26 20:31:23] User in voice channel: General
+[2025-03-26 20:31:23] Connecting to voice channel...
+[2025-03-26 20:31:23] Connected to General
+[2025-03-26 20:31:23] Starting download for https://www.youtube.com/watch?v=iI34LYmJ1Fs
+[2025-03-26 20:31:25] YouTube DL Error: [0;31mERROR:[0m [youtube] iI34LYmJ1Fs: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies
+[2025-03-26 20:41:38] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=hTWKbfoikeg
+[2025-03-26 20:41:38] User not in voice channel
+[2025-03-26 20:41:43] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=hTWKbfoikeg
+[2025-03-26 20:41:43] User in voice channel: General
+[2025-03-26 20:41:43] Connecting to voice channel...
+[2025-03-26 20:41:43] Connected to General
+[2025-03-26 20:41:43] Starting download for https://www.youtube.com/watch?v=hTWKbfoikeg
+[2025-03-26 20:41:45] YouTube DL Error: [0;31mERROR:[0m [youtube] hTWKbfoikeg: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies
+[2025-03-26 20:43:57] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=hTWKbfoikeg
+[2025-03-26 20:43:57] User in voice channel: General
+[2025-03-26 20:43:57] Connecting to voice channel...
+[2025-03-26 20:43:58] Connected to General
+[2025-03-26 20:43:58] Starting download for https://www.youtube.com/watch?v=hTWKbfoikeg
+[2025-03-26 20:43:59] YouTube DL Error: [0;31mERROR:[0m [youtube] hTWKbfoikeg: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies
+[2025-03-26 20:46:46] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=hTWKbfoikeg
+[2025-03-26 20:46:46] User in voice channel: General
+[2025-03-26 20:46:46] Connecting to voice channel...
+[2025-03-26 20:46:47] Connected to General
+[2025-03-26 20:46:47] Starting download for https://www.youtube.com/watch?v=hTWKbfoikeg
+[2025-03-26 20:46:51] Downloaded: Nirvana - Smells Like Teen Spirit (Official Music Video) (File: songs/youtube-hTWKbfoikeg-Nirvana_-_Smells_Like_Teen_Spirit_Official_Music_Video.webm)
+[2025-03-26 20:46:51] Starting playback: Nirvana - Smells Like Teen Spirit (Official Music Video)
+[2025-03-26 20:47:16] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=Soa3gO7tL-c&list=RDSoa3gO7tL-c&start_radio=1
+[2025-03-26 20:47:16] User in voice channel: General
+[2025-03-26 20:47:17] Already playing, waiting 14 seconds
+[2025-03-26 20:47:31] Starting download for https://www.youtube.com/watch?v=Soa3gO7tL-c&list=RDSoa3gO7tL-c&start_radio=1
+[2025-03-26 20:47:34] Downloaded: Green Day - Boulevard Of Broken Dreams [Official Music Video] [4K Upgrade] (File: songs/youtube-Soa3gO7tL-c-Green_Day_-_Boulevard_Of_Broken_Dreams_Official_Music_Video_4K_Upgrade.webm)
+[2025-03-26 20:47:34] Adding to queue: Green Day - Boulevard Of Broken Dreams [Official Music Video] [4K Upgrade]
+[2025-03-26 20:48:52] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=ekr2nIex040
+[2025-03-26 20:48:52] User in voice channel: General
+[2025-03-26 20:48:52] Already playing, waiting 10 seconds
+[2025-03-26 20:49:02] Starting download for https://www.youtube.com/watch?v=ekr2nIex040
+[2025-03-26 20:49:13] Downloaded: ROSÉ & Bruno Mars - APT. (Official Music Video) (File: songs/youtube-ekr2nIex040-ROSE_Bruno_Mars_-_APT._Official_Music_Video.webm)
+[2025-03-26 20:49:13] Adding to queue: ROSÉ & Bruno Mars - APT. (Official Music Video)
+[2025-03-26 21:02:59] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=ekr2nIex040
+[2025-03-26 21:02:59] User in voice channel: General
+[2025-03-26 21:02:59] Connecting to voice channel...
+[2025-03-26 21:02:59] Connected to General
+[2025-03-26 21:03:00] Starting download for https://www.youtube.com/watch?v=ekr2nIex040
+[2025-03-26 21:03:03] Downloaded: ROSÉ & Bruno Mars - APT. (Official Music Video) (File: songs/youtube-ekr2nIex040-ROSE_Bruno_Mars_-_APT._Official_Music_Video.webm)
+[2025-03-26 21:03:03] Starting playback: ROSÉ & Bruno Mars - APT. (Official Music Video)
+[2025-03-26 23:19:27] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=ekr2nIex040
+[2025-03-26 23:19:27] User in voice channel: General
+[2025-03-26 23:19:27] Connecting to voice channel...
+[2025-03-26 23:19:27] Connected to General
+[2025-03-26 23:19:28] Starting download for https://www.youtube.com/watch?v=ekr2nIex040
+[2025-03-26 23:19:31] Downloaded: ROSÉ & Bruno Mars - APT. (Official Music Video) (File: songs/youtube-ekr2nIex040-ROSE_Bruno_Mars_-_APT._Official_Music_Video.webm)
+[2025-03-26 23:19:31] Starting playback: ROSÉ & Bruno Mars - APT. (Official Music Video)
+[2025-03-27 00:24:26] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=xwEqtjl-rgI
+[2025-03-27 00:24:26] User in voice channel: 🍀 LUCK VC
+[2025-03-27 00:24:26] Connecting to voice channel...
+[2025-03-27 00:24:27] Connected to 🍀 LUCK VC
+[2025-03-27 00:24:27] Starting download for https://www.youtube.com/watch?v=xwEqtjl-rgI
+[2025-03-27 00:24:34] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=CiV9BHZCaKQ
+[2025-03-27 00:24:34] User in voice channel: 🍀 LUCK VC
+[2025-03-27 00:24:34] Starting download for https://www.youtube.com/watch?v=CiV9BHZCaKQ
+[2025-03-27 00:24:38] Downloaded: Tate McRae - Nostalgia (Lyric Video) (File: songs/youtube-xwEqtjl-rgI-Tate_McRae_-_Nostalgia_Lyric_Video.webm)
+[2025-03-27 00:24:38] Starting playback: Tate McRae - Nostalgia (Lyric Video)
+[2025-03-27 00:24:38] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=k855HXJ8-tk
+[2025-03-27 00:24:38] User in voice channel: 🍀 LUCK VC
+[2025-03-27 00:24:38] Already playing, waiting 10 seconds
+[2025-03-27 00:24:43] Downloaded: PARTYNEXTDOOR & DRAKE - DIE TRYING (Official Lyric Video) (File: songs/youtube-CiV9BHZCaKQ-PARTYNEXTDOOR_DRAKE_-_DIE_TRYING_Official_Lyric_Video.webm)
+[2025-03-27 00:24:43] Adding to queue: PARTYNEXTDOOR & DRAKE - DIE TRYING (Official Lyric Video)
+[2025-03-27 00:24:48] Starting download for https://www.youtube.com/watch?v=k855HXJ8-tk
+[2025-03-27 00:25:01] Downloaded: d4vd - Crashing (with Kali Uchis) [Official Music Video] (File: songs/youtube-k855HXJ8-tk-d4vd_-_Crashing_with_Kali_Uchis_Official_Music_Video.webm)
+[2025-03-27 00:25:01] Adding to queue: d4vd - Crashing (with Kali Uchis) [Official Music Video]
+[2025-03-27 00:37:26] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=fm6-AHfB5yk
+[2025-03-27 00:37:26] User in voice channel: 🍀 LUCK VC
+[2025-03-27 00:37:26] Starting download for https://www.youtube.com/watch?v=fm6-AHfB5yk
+[2025-03-27 00:37:31] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=kMYynnANKjo
+[2025-03-27 00:37:31] User in voice channel: 🍀 LUCK VC
+[2025-03-27 00:37:31] Starting download for https://www.youtube.com/watch?v=kMYynnANKjo
+[2025-03-27 00:37:36] Downloaded: Anella - Julianna (Official Audio) (File: songs/youtube-fm6-AHfB5yk-Anella_-_Julianna_Official_Audio.webm)
+[2025-03-27 00:37:36] Starting playback: Anella - Julianna (Official Audio)
+[2025-03-27 00:37:42] Downloaded: joan - magic (Official Video) (File: songs/youtube-kMYynnANKjo-joan_-_magic_Official_Video.webm)
+[2025-03-27 00:37:42] Adding to queue: joan - magic (Official Video)
+[2025-03-27 00:40:07] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=KVtxmAb6V8U
+[2025-03-27 00:40:07] User in voice channel: 🍀 LUCK VC
+[2025-03-27 00:40:07] Already playing, waiting 9 seconds
+[2025-03-27 00:40:13] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=Gtbhuuy1j7s
+[2025-03-27 00:40:13] User in voice channel: 🍀 LUCK VC
+[2025-03-27 00:40:13] Already playing, waiting 14 seconds
+[2025-03-27 00:40:16] Starting download for https://www.youtube.com/watch?v=KVtxmAb6V8U
+[2025-03-27 00:40:27] Starting download for https://www.youtube.com/watch?v=Gtbhuuy1j7s
+[2025-03-27 00:40:27] Downloaded: Stacey Ryan - Everything Everything (Lyrics) (File: songs/youtube-KVtxmAb6V8U-Stacey_Ryan_-_Everything_Everything_Lyrics.webm)
+[2025-03-27 00:40:27] Adding to queue: Stacey Ryan - Everything Everything (Lyrics)
+[2025-03-27 00:40:38] Downloaded: Selena Gomez, benny blanco - Scared of Loving You (Official Lyric Video) (File: songs/youtube-Gtbhuuy1j7s-Selena_Gomez_benny_blanco_-_Scared_of_Loving_You_Official_Lyric_Video.webm)
+[2025-03-27 00:40:38] Adding to queue: Selena Gomez, benny blanco - Scared of Loving You (Official Lyric Video)
+[2025-03-27 00:55:29] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=99yE9e1h670
+[2025-03-27 00:55:29] User in voice channel: 🍀 LUCK VC
+[2025-03-27 00:55:29] Starting download for https://www.youtube.com/watch?v=99yE9e1h670
+[2025-03-27 00:55:30] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=M-VT5NO5Eh4
+[2025-03-27 00:55:30] User in voice channel: 🍀 LUCK VC
+[2025-03-27 00:55:30] Starting download for https://www.youtube.com/watch?v=M-VT5NO5Eh4
+[2025-03-27 00:55:34] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=_l_QFmofJQc
+[2025-03-27 00:55:34] User in voice channel: 🍀 LUCK VC
+[2025-03-27 00:55:35] Starting download for https://www.youtube.com/watch?v=_l_QFmofJQc
+[2025-03-27 00:55:38] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=ZMiaADh6n0o
+[2025-03-27 00:55:38] User in voice channel: 🍀 LUCK VC
+[2025-03-27 00:55:38] Starting download for https://www.youtube.com/watch?v=ZMiaADh6n0o
+[2025-03-27 00:55:38] YouTube DL Error: [0;31mERROR:[0m unable to download video data: HTTP Error 403: Forbidden
+[2025-03-27 00:55:41] Downloaded: Maya, Maya, Maya (File: songs/youtube-M-VT5NO5Eh4-Maya_Maya_Maya.webm)
+[2025-03-27 00:55:41] Starting playback: Maya, Maya, Maya
+[2025-03-27 00:55:47] Downloaded: Johnny Stimson & Devin Kennedy - New Friends (Official Lyric Video) (File: songs/youtube-_l_QFmofJQc-Johnny_Stimson_Devin_Kennedy_-_New_Friends_Official_Lyric_Video.webm)
+[2025-03-27 00:55:47] Adding to queue: Johnny Stimson & Devin Kennedy - New Friends (Official Lyric Video)
+[2025-03-27 00:55:47] Downloaded: Leyla Blue - baby boy (File: songs/youtube-ZMiaADh6n0o-Leyla_Blue_-_baby_boy.webm)
+[2025-03-27 00:55:47] Adding to queue: Leyla Blue - baby boy
+[2025-03-27 01:00:01] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=l08Zw-RY__Q
+[2025-03-27 01:00:01] User in voice channel: 🍀 LUCK VC
+[2025-03-27 01:00:02] Already playing, waiting 7 seconds
+[2025-03-27 01:00:05] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=k855HXJ8-tk
+[2025-03-27 01:00:05] User in voice channel: 🍀 LUCK VC
+[2025-03-27 01:00:05] Already playing, waiting 12 seconds
+[2025-03-27 01:00:08] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=CiV9BHZCaKQ
+[2025-03-27 01:00:08] User in voice channel: 🍀 LUCK VC
+[2025-03-27 01:00:08] Already playing, waiting 14 seconds
+[2025-03-27 01:00:09] Starting download for https://www.youtube.com/watch?v=l08Zw-RY__Q
+[2025-03-27 01:00:17] Downloaded: Billie Eilish - WILDFLOWER (Official Lyric Video) (File: songs/youtube-l08Zw-RY__Q-Billie_Eilish_-_WILDFLOWER_Official_Lyric_Video.webm)
+[2025-03-27 01:00:17] Adding to queue: Billie Eilish - WILDFLOWER (Official Lyric Video)
+[2025-03-27 01:00:17] Starting download for https://www.youtube.com/watch?v=k855HXJ8-tk
+[2025-03-27 01:00:17] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=KVtxmAb6V8U
+[2025-03-27 01:00:17] User in voice channel: 🍀 LUCK VC
+[2025-03-27 01:00:18] Already playing, waiting 11 seconds
+[2025-03-27 01:00:20] Downloaded: d4vd - Crashing (with Kali Uchis) [Official Music Video] (File: songs/youtube-k855HXJ8-tk-d4vd_-_Crashing_with_Kali_Uchis_Official_Music_Video.webm)
+[2025-03-27 01:00:20] Adding to queue: d4vd - Crashing (with Kali Uchis) [Official Music Video]
+[2025-03-27 01:00:22] Starting download for https://www.youtube.com/watch?v=CiV9BHZCaKQ
+[2025-03-27 01:00:25] Downloaded: PARTYNEXTDOOR & DRAKE - DIE TRYING (Official Lyric Video) (File: songs/youtube-CiV9BHZCaKQ-PARTYNEXTDOOR_DRAKE_-_DIE_TRYING_Official_Lyric_Video.webm)
+[2025-03-27 01:00:25] Adding to queue: PARTYNEXTDOOR & DRAKE - DIE TRYING (Official Lyric Video)
+[2025-03-27 01:00:29] Starting download for https://www.youtube.com/watch?v=KVtxmAb6V8U
+[2025-03-27 01:00:31] Downloaded: Stacey Ryan - Everything Everything (Lyrics) (File: songs/youtube-KVtxmAb6V8U-Stacey_Ryan_-_Everything_Everything_Lyrics.webm)
+[2025-03-27 01:00:31] Adding to queue: Stacey Ryan - Everything Everything (Lyrics)
+[2025-03-28 22:41:09] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=J7IMwop3RHs&list=RDiI34LYmJ1Fs&index=23
+[2025-03-28 22:41:09] User in voice channel: General
+[2025-03-28 22:41:09] Connecting to voice channel...
+[2025-03-28 22:41:09] Connected to General
+[2025-03-28 22:41:10] Starting download for https://www.youtube.com/watch?v=J7IMwop3RHs&list=RDiI34LYmJ1Fs&index=23
+[2025-03-28 22:41:23] Downloaded: Rob $tone - Chill Bill ft. J.Davis & Spooks (Dir. Alex Vibe) (File: songs/youtube-J7IMwop3RHs-Rob_tone_-_Chill_Bill_ft._J.Davis_Spooks_Dir._Alex_Vibe.webm)
+[2025-03-28 22:41:23] Starting playback: Rob $tone - Chill Bill ft. J.Davis & Spooks (Dir. Alex Vibe)
+[2025-03-28 23:58:18] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=CiV9BHZCaKQ
+[2025-03-28 23:58:18] User in voice channel: 🍀 LUCK VC
+[2025-03-28 23:58:18] Connecting to voice channel...
+[2025-03-28 23:58:19] Connected to 🍀 LUCK VC
+[2025-03-28 23:58:19] Starting download for https://www.youtube.com/watch?v=CiV9BHZCaKQ
+[2025-03-28 23:58:21] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=Gtbhuuy1j7s
+[2025-03-28 23:58:22] User in voice channel: 🍀 LUCK VC
+[2025-03-28 23:58:22] Starting download for https://www.youtube.com/watch?v=Gtbhuuy1j7s
+[2025-03-28 23:58:22] Downloaded: PARTYNEXTDOOR & DRAKE - DIE TRYING (Official Lyric Video) (File: songs/youtube-CiV9BHZCaKQ-PARTYNEXTDOOR_DRAKE_-_DIE_TRYING_Official_Lyric_Video.webm)
+[2025-03-28 23:58:22] Starting playback: PARTYNEXTDOOR & DRAKE - DIE TRYING (Official Lyric Video)
+[2025-03-28 23:58:25] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=M-VT5NO5Eh4
+[2025-03-28 23:58:25] User in voice channel: 🍀 LUCK VC
+[2025-03-28 23:58:25] Downloaded: Selena Gomez, benny blanco - Scared of Loving You (Official Lyric Video) (File: songs/youtube-Gtbhuuy1j7s-Selena_Gomez_benny_blanco_-_Scared_of_Loving_You_Official_Lyric_Video.webm)
+[2025-03-28 23:58:25] Adding to queue: Selena Gomez, benny blanco - Scared of Loving You (Official Lyric Video)
+[2025-03-28 23:58:25] Already playing, waiting 7 seconds
+[2025-03-28 23:58:28] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=_l_QFmofJQc
+[2025-03-28 23:58:28] User in voice channel: 🍀 LUCK VC
+[2025-03-28 23:58:28] Already playing, waiting 13 seconds
+[2025-03-28 23:58:31] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=ZMiaADh6n0o
+[2025-03-28 23:58:31] User in voice channel: 🍀 LUCK VC
+[2025-03-28 23:58:31] Already playing, waiting 13 seconds
+[2025-03-28 23:58:32] Starting download for https://www.youtube.com/watch?v=M-VT5NO5Eh4
+[2025-03-28 23:58:34] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=l08Zw-RY__Q
+[2025-03-28 23:58:34] User in voice channel: 🍀 LUCK VC
+[2025-03-28 23:58:34] Already playing, waiting 7 seconds
+[2025-03-28 23:58:35] Downloaded: Maya, Maya, Maya (File: songs/youtube-M-VT5NO5Eh4-Maya_Maya_Maya.webm)
+[2025-03-28 23:58:35] Adding to queue: Maya, Maya, Maya
+[2025-03-28 23:58:37] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=fm6-AHfB5yk
+[2025-03-28 23:58:37] User in voice channel: 🍀 LUCK VC
+[2025-03-28 23:58:37] Already playing, waiting 11 seconds
+[2025-03-28 23:58:41] Starting download for https://www.youtube.com/watch?v=_l_QFmofJQc
+[2025-03-28 23:58:41] Starting download for https://www.youtube.com/watch?v=l08Zw-RY__Q
+[2025-03-28 23:58:43] Downloaded: Johnny Stimson & Devin Kennedy - New Friends (Official Lyric Video) (File: songs/youtube-_l_QFmofJQc-Johnny_Stimson_Devin_Kennedy_-_New_Friends_Official_Lyric_Video.webm)
+[2025-03-28 23:58:43] Adding to queue: Johnny Stimson & Devin Kennedy - New Friends (Official Lyric Video)
+[2025-03-28 23:58:44] Downloaded: Billie Eilish - WILDFLOWER (Official Lyric Video) (File: songs/youtube-l08Zw-RY__Q-Billie_Eilish_-_WILDFLOWER_Official_Lyric_Video.webm)
+[2025-03-28 23:58:44] Adding to queue: Billie Eilish - WILDFLOWER (Official Lyric Video)
+[2025-03-28 23:58:44] Starting download for https://www.youtube.com/watch?v=ZMiaADh6n0o
+[2025-03-28 23:58:46] Downloaded: Leyla Blue - baby boy (File: songs/youtube-ZMiaADh6n0o-Leyla_Blue_-_baby_boy.webm)
+[2025-03-28 23:58:46] Adding to queue: Leyla Blue - baby boy
+[2025-03-28 23:58:48] Starting download for https://www.youtube.com/watch?v=fm6-AHfB5yk
+[2025-03-28 23:58:52] Downloaded: Anella - Julianna (Official Audio) (File: songs/youtube-fm6-AHfB5yk-Anella_-_Julianna_Official_Audio.webm)
+[2025-03-28 23:58:52] Adding to queue: Anella - Julianna (Official Audio)
+[2025-03-29 00:22:18] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=fm6-AHfB5yk
+[2025-03-29 00:22:18] User in voice channel: 🍀 LUCK VC
+[2025-03-29 00:22:18] Starting download for https://www.youtube.com/watch?v=fm6-AHfB5yk
+[2025-03-29 00:22:21] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=l08Zw-RY__Q
+[2025-03-29 00:22:21] User in voice channel: 🍀 LUCK VC
+[2025-03-29 00:22:21] Starting download for https://www.youtube.com/watch?v=l08Zw-RY__Q
+[2025-03-29 00:22:21] Downloaded: Anella - Julianna (Official Audio) (File: songs/youtube-fm6-AHfB5yk-Anella_-_Julianna_Official_Audio.webm)
+[2025-03-29 00:22:21] Starting playback: Anella - Julianna (Official Audio)
+[2025-03-29 00:22:24] Downloaded: Billie Eilish - WILDFLOWER (Official Lyric Video) (File: songs/youtube-l08Zw-RY__Q-Billie_Eilish_-_WILDFLOWER_Official_Lyric_Video.webm)
+[2025-03-29 00:22:24] Adding to queue: Billie Eilish - WILDFLOWER (Official Lyric Video)
+[2025-03-29 00:22:24] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=ZMiaADh6n0o
+[2025-03-29 00:22:24] User in voice channel: 🍀 LUCK VC
+[2025-03-29 00:22:24] Already playing, waiting 8 seconds
+[2025-03-29 00:22:32] Starting download for https://www.youtube.com/watch?v=ZMiaADh6n0o
+[2025-03-29 00:22:35] Downloaded: Leyla Blue - baby boy (File: songs/youtube-ZMiaADh6n0o-Leyla_Blue_-_baby_boy.webm)
+[2025-03-29 00:22:35] Adding to queue: Leyla Blue - baby boy
+[2025-03-29 00:34:38] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=CiV9BHZCaKQ
+[2025-03-29 00:34:38] User in voice channel: 🍀 LUCK VC
+[2025-03-29 00:34:38] Starting download for https://www.youtube.com/watch?v=CiV9BHZCaKQ
+[2025-03-29 00:34:41] Downloaded: PARTYNEXTDOOR & DRAKE - DIE TRYING (Official Lyric Video) (File: songs/youtube-CiV9BHZCaKQ-PARTYNEXTDOOR_DRAKE_-_DIE_TRYING_Official_Lyric_Video.webm)
+[2025-03-29 00:34:41] Starting playback: PARTYNEXTDOOR & DRAKE - DIE TRYING (Official Lyric Video)
+[2025-03-29 00:34:44] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=k855HXJ8-tk
+[2025-03-29 00:34:44] User in voice channel: 🍀 LUCK VC
+[2025-03-29 00:34:44] Already playing, waiting 12 seconds
+[2025-03-29 00:34:56] Starting download for https://www.youtube.com/watch?v=k855HXJ8-tk
+[2025-03-29 00:35:00] Downloaded: d4vd - Crashing (with Kali Uchis) [Official Music Video] (File: songs/youtube-k855HXJ8-tk-d4vd_-_Crashing_with_Kali_Uchis_Official_Music_Video.webm)
+[2025-03-29 00:35:00] Adding to queue: d4vd - Crashing (with Kali Uchis) [Official Music Video]
+[2025-04-02 21:54:34] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=J7IMwop3RHs&list=RDiI34LYmJ1Fs&index=23
+[2025-04-02 21:54:34] User in voice channel: General
+[2025-04-02 21:54:34] Connecting to voice channel...
+[2025-04-02 21:54:34] Connected to General
+[2025-04-02 21:54:34] Starting download for https://www.youtube.com/watch?v=J7IMwop3RHs&list=RDiI34LYmJ1Fs&index=23
+[2025-04-02 21:54:37] Downloaded: Rob $tone - Chill Bill ft. J.Davis & Spooks (Dir. Alex Vibe) (File: songs/youtube-J7IMwop3RHs-Rob_tone_-_Chill_Bill_ft._J.Davis_Spooks_Dir._Alex_Vibe.webm)
+[2025-04-02 21:54:37] Starting playback: Rob $tone - Chill Bill ft. J.Davis & Spooks (Dir. Alex Vibe)
+[2025-04-10 00:28:19] Play command invoked by intenselol in LUCK with URL: https://www.youtube.com/watch?v=k855HXJ8-tk
+[2025-04-10 00:28:19] User in voice channel: 🍀 LUCK VC
+[2025-04-10 00:28:19] Connecting to voice channel...
+[2025-04-10 00:28:20] Connected to 🍀 LUCK VC
+[2025-04-10 00:28:20] Starting download for https://www.youtube.com/watch?v=k855HXJ8-tk
+[2025-04-10 00:28:23] Downloaded: d4vd - Crashing (with Kali Uchis) [Official Music Video] (File: songs/youtube-k855HXJ8-tk-d4vd_-_Crashing_with_Kali_Uchis_Official_Music_Video.webm)
+[2025-04-10 00:28:23] Starting playback: d4vd - Crashing (with Kali Uchis) [Official Music Video]
+[2025-04-10 00:32:30] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=ZMiaADh6n0o
+[2025-04-10 00:32:30] User in voice channel: 🍀 LUCK VC
+[2025-04-10 00:32:30] Starting download for https://www.youtube.com/watch?v=ZMiaADh6n0o
+[2025-04-10 00:32:33] Downloaded: Leyla Blue - baby boy (File: songs/youtube-ZMiaADh6n0o-Leyla_Blue_-_baby_boy.webm)
+[2025-04-10 00:32:33] Starting playback: Leyla Blue - baby boy
+[2025-04-10 00:32:38] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=CiV9BHZCaKQ
+[2025-04-10 00:32:38] User in voice channel: 🍀 LUCK VC
+[2025-04-10 00:32:38] Already playing, waiting 10 seconds
+[2025-04-10 00:32:46] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=fm6-AHfB5yk
+[2025-04-10 00:32:46] User in voice channel: 🍀 LUCK VC
+[2025-04-10 00:32:46] Already playing, waiting 9 seconds
+[2025-04-10 00:32:48] Starting download for https://www.youtube.com/watch?v=CiV9BHZCaKQ
+[2025-04-10 00:32:51] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=l08Zw-RY__Q
+[2025-04-10 00:32:51] User in voice channel: 🍀 LUCK VC
+[2025-04-10 00:32:51] Already playing, waiting 7 seconds
+[2025-04-10 00:32:51] Downloaded: PARTYNEXTDOOR & DRAKE - DIE TRYING (Official Lyric Video) (File: songs/youtube-CiV9BHZCaKQ-PARTYNEXTDOOR_DRAKE_-_DIE_TRYING_Official_Lyric_Video.webm)
+[2025-04-10 00:32:51] Adding to queue: PARTYNEXTDOOR & DRAKE - DIE TRYING (Official Lyric Video)
+[2025-04-10 00:32:55] Starting download for https://www.youtube.com/watch?v=fm6-AHfB5yk
+[2025-04-10 00:32:58] Starting download for https://www.youtube.com/watch?v=l08Zw-RY__Q
+[2025-04-10 00:32:58] Downloaded: Anella - Julianna (Official Audio) (File: songs/youtube-fm6-AHfB5yk-Anella_-_Julianna_Official_Audio.webm)
+[2025-04-10 00:32:58] Adding to queue: Anella - Julianna (Official Audio)
+[2025-04-10 00:33:00] Downloaded: Billie Eilish - WILDFLOWER (Official Lyric Video) (File: songs/youtube-l08Zw-RY__Q-Billie_Eilish_-_WILDFLOWER_Official_Lyric_Video.webm)
+[2025-04-10 00:33:00] Adding to queue: Billie Eilish - WILDFLOWER (Official Lyric Video)
+[2025-04-10 00:37:42] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=KVtxmAb6V8U
+[2025-04-10 00:37:42] User in voice channel: 🍀 LUCK VC
+[2025-04-10 00:37:42] Already playing, waiting 10 seconds
+[2025-04-10 00:37:52] Starting download for https://www.youtube.com/watch?v=KVtxmAb6V8U
+[2025-04-10 00:37:56] Downloaded: Stacey Ryan - Everything Everything (Lyrics) (File: songs/youtube-KVtxmAb6V8U-Stacey_Ryan_-_Everything_Everything_Lyrics.webm)
+[2025-04-10 00:37:56] Adding to queue: Stacey Ryan - Everything Everything (Lyrics)
+[2025-04-10 00:46:12] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=99yE9e1h670
+[2025-04-10 00:46:12] User in voice channel: 🍀 LUCK VC
+[2025-04-10 00:46:13] Already playing, waiting 10 seconds
+[2025-04-10 00:46:13] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=M-VT5NO5Eh4
+[2025-04-10 00:46:13] User in voice channel: 🍀 LUCK VC
+[2025-04-10 00:46:14] Already playing, waiting 10 seconds
+[2025-04-10 00:46:23] Starting download for https://www.youtube.com/watch?v=99yE9e1h670
+[2025-04-10 00:46:24] Starting download for https://www.youtube.com/watch?v=M-VT5NO5Eh4
+[2025-04-10 00:46:27] Downloaded: Maya, Maya, Maya (File: songs/youtube-M-VT5NO5Eh4-Maya_Maya_Maya.webm)
+[2025-04-10 00:46:27] Adding to queue: Maya, Maya, Maya
+[2025-04-10 00:46:32] YouTube DL Error: [0;31mERROR:[0m unable to download video data: HTTP Error 403: Forbidden
+[2025-04-10 00:46:48] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=99yE9e1h670
+[2025-04-10 00:46:48] User in voice channel: 🍀 LUCK VC
+[2025-04-10 00:46:48] Already playing, waiting 8 seconds
+[2025-04-10 00:46:56] Starting download for https://www.youtube.com/watch?v=99yE9e1h670
+[2025-04-10 00:47:03] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=fm6-AHfB5yk
+[2025-04-10 00:47:03] User in voice channel: 🍀 LUCK VC
+[2025-04-10 00:47:04] Already playing, waiting 11 seconds
+[2025-04-10 00:47:08] Downloaded: Jenna Raine - 21 (Official Audio) (File: songs/youtube-99yE9e1h670-Jenna_Raine_-_21_Official_Audio.webm)
+[2025-04-10 00:47:08] Adding to queue: Jenna Raine - 21 (Official Audio)
+[2025-04-10 00:47:15] Starting download for https://www.youtube.com/watch?v=fm6-AHfB5yk
+[2025-04-10 00:47:15] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=ZMiaADh6n0o
+[2025-04-10 00:47:16] User in voice channel: 🍀 LUCK VC
+[2025-04-10 00:47:16] Already playing, waiting 8 seconds
+[2025-04-10 00:47:16] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=_l_QFmofJQc
+[2025-04-10 00:47:16] User in voice channel: 🍀 LUCK VC
+[2025-04-10 00:47:17] Already playing, waiting 12 seconds
+[2025-04-10 00:47:17] Downloaded: Anella - Julianna (Official Audio) (File: songs/youtube-fm6-AHfB5yk-Anella_-_Julianna_Official_Audio.webm)
+[2025-04-10 00:47:17] Adding to queue: Anella - Julianna (Official Audio)
+[2025-04-10 00:47:24] Starting download for https://www.youtube.com/watch?v=ZMiaADh6n0o
+[2025-04-10 00:47:26] Downloaded: Leyla Blue - baby boy (File: songs/youtube-ZMiaADh6n0o-Leyla_Blue_-_baby_boy.webm)
+[2025-04-10 00:47:26] Adding to queue: Leyla Blue - baby boy
+[2025-04-10 00:47:29] Starting download for https://www.youtube.com/watch?v=_l_QFmofJQc
+[2025-04-10 00:47:31] Downloaded: Johnny Stimson & Devin Kennedy - New Friends (Official Lyric Video) (File: songs/youtube-_l_QFmofJQc-Johnny_Stimson_Devin_Kennedy_-_New_Friends_Official_Lyric_Video.webm)
+[2025-04-10 00:47:31] Adding to queue: Johnny Stimson & Devin Kennedy - New Friends (Official Lyric Video)
+[2025-04-10 01:00:24] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=k855HXJ8-tk
+[2025-04-10 01:00:24] User in voice channel: 🍀 LUCK VC
+[2025-04-10 01:00:24] Already playing, waiting 7 seconds
+[2025-04-10 01:00:29] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=M-VT5NO5Eh4
+[2025-04-10 01:00:29] User in voice channel: 🍀 LUCK VC
+[2025-04-10 01:00:30] Already playing, waiting 8 seconds
+[2025-04-10 01:00:31] Starting download for https://www.youtube.com/watch?v=k855HXJ8-tk
+[2025-04-10 01:00:34] Downloaded: d4vd - Crashing (with Kali Uchis) [Official Music Video] (File: songs/youtube-k855HXJ8-tk-d4vd_-_Crashing_with_Kali_Uchis_Official_Music_Video.webm)
+[2025-04-10 01:00:34] Adding to queue: d4vd - Crashing (with Kali Uchis) [Official Music Video]
+[2025-04-10 01:00:35] Play command invoked by n_kay in LUCK with URL: https://www.youtube.com/watch?v=fm6-AHfB5yk
+[2025-04-10 01:00:35] User in voice channel: 🍀 LUCK VC
+[2025-04-10 01:00:35] Already playing, waiting 9 seconds
+[2025-04-10 01:00:38] Starting download for https://www.youtube.com/watch?v=M-VT5NO5Eh4
+[2025-04-10 01:00:40] Downloaded: Maya, Maya, Maya (File: songs/youtube-M-VT5NO5Eh4-Maya_Maya_Maya.webm)
+[2025-04-10 01:00:40] Adding to queue: Maya, Maya, Maya
+[2025-04-10 01:00:44] Starting download for https://www.youtube.com/watch?v=fm6-AHfB5yk
+[2025-04-10 01:00:46] Downloaded: Anella - Julianna (Official Audio) (File: songs/youtube-fm6-AHfB5yk-Anella_-_Julianna_Official_Audio.webm)
+[2025-04-10 01:00:46] Adding to queue: Anella - Julianna (Official Audio)
+[2025-04-16 22:39:55] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=l0U7SxXHkPY
+[2025-04-16 22:39:55] User in voice channel: General
+[2025-04-16 22:39:55] Already playing, waiting 15 seconds
+[2025-04-16 22:40:10] Downloading https://www.youtube.com/watch?v=l0U7SxXHkPY (not in cache)
+[2025-04-16 22:40:23] Adding to queue: Future - Life Is Good (Official Music Video) ft. Drake
+[2025-04-22 09:45:15] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=F57P9C4SAW4
+[2025-04-22 09:45:15] User in voice channel: General
+[2025-04-22 09:45:15] Connecting to voice channel...
+[2025-04-22 09:45:16] Connected to General
+[2025-04-22 09:45:16] Downloading https://www.youtube.com/watch?v=F57P9C4SAW4 (not in cache)
+[2025-04-22 09:45:26] Starting playback: Katy Perry - California Gurls (Official Music Video) ft. Snoop Dogg
+[2025-04-22 09:45:50] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=KRaWnd3LJfs
+[2025-04-22 09:45:50] User in voice channel: General
+[2025-04-22 09:45:50] Already playing, waiting 15 seconds
+[2025-04-22 09:46:05] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=uSD4vsh1zDA
+[2025-04-22 09:46:05] User in voice channel: General
+[2025-04-22 09:46:05] Already playing, waiting 11 seconds
+[2025-04-22 09:46:05] Downloading https://www.youtube.com/watch?v=KRaWnd3LJfs (not in cache)
+[2025-04-22 09:46:16] Downloading https://www.youtube.com/watch?v=uSD4vsh1zDA (not in cache)
+[2025-04-22 09:46:16] Adding to queue: Maroon 5 - Payphone ft. Wiz Khalifa (Explicit) (Official Music Video)
+[2025-04-22 09:46:24] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=tg00YEETFzg
+[2025-04-22 09:46:24] User in voice channel: General
+[2025-04-22 09:46:24] Already playing, waiting 12 seconds
+[2025-04-22 09:46:27] Adding to queue: The Black Eyed Peas - I Gotta Feeling (Official Music Video)
+[2025-04-22 09:46:36] Downloading https://www.youtube.com/watch?v=tg00YEETFzg (not in cache)
+[2025-04-22 09:46:41] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=U2waT9TxPU0
+[2025-04-22 09:46:41] User in voice channel: General
+[2025-04-22 09:46:42] Already playing, waiting 9 seconds
+[2025-04-22 09:46:45] Adding to queue: Rihanna - We Found Love ft. Calvin Harris
+[2025-04-22 09:46:51] Downloading https://www.youtube.com/watch?v=U2waT9TxPU0 (not in cache)
+[2025-04-22 09:47:01] Adding to queue: Flo Rida - Low (feat. T-Pain) [from Step Up 2 The Streets O.S.T. / Mail On Sunday] (Official Video)
+[2025-04-22 09:47:27] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=U2waT9TxPU0
+[2025-04-22 09:47:27] User in voice channel: General
+[2025-04-22 09:47:27] Using cached file for https://www.youtube.com/watch?v=U2waT9TxPU0
+[2025-04-22 09:47:30] Adding to queue: Flo Rida - Low (feat. T-Pain) [from Step Up 2 The Streets O.S.T. / Mail On Sunday] (Official Video)
+[2025-04-22 09:48:24] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=PT2_F-1esPk
+[2025-04-22 09:48:24] User in voice channel: General
+[2025-04-22 09:48:24] Already playing, waiting 15 seconds
+[2025-04-22 09:48:33] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=ZaAyTrhjK28
+[2025-04-22 09:48:33] User in voice channel: General
+[2025-04-22 09:48:34] Already playing, waiting 14 seconds
+[2025-04-22 09:48:39] Downloading https://www.youtube.com/watch?v=PT2_F-1esPk (not in cache)
+[2025-04-22 09:48:43] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=jGflUbPQfW8
+[2025-04-22 09:48:43] User in voice channel: General
+[2025-04-22 09:48:43] Already playing, waiting 12 seconds
+[2025-04-22 09:48:48] Downloading https://www.youtube.com/watch?v=ZaAyTrhjK28 (not in cache)
+[2025-04-22 09:48:50] Adding to queue: The Chainsmokers - Closer (Lyric) ft. Halsey
+[2025-04-22 09:48:55] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=5RDSkR8_AQ0
+[2025-04-22 09:48:55] User in voice channel: General
+[2025-04-22 09:48:55] Already playing, waiting 11 seconds
+[2025-04-22 09:48:55] Downloading https://www.youtube.com/watch?v=jGflUbPQfW8 (not in cache)
+[2025-04-22 09:48:57] Adding to queue: Calvin Harris - Summer (Lyrics)
+[2025-04-22 09:49:05] Adding to queue: OMI - Cheerleader (Felix Jaehn Remix) (Official Video) [Ultra Records]
+[2025-04-22 09:49:05] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=IC8qPpnD0uE
+[2025-04-22 09:49:05] User in voice channel: General
+[2025-04-22 09:49:05] Already playing, waiting 12 seconds
+[2025-04-22 09:49:06] Downloading https://www.youtube.com/watch?v=5RDSkR8_AQ0 (not in cache)
+[2025-04-22 09:49:14] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=w4s6H4ku6ZY
+[2025-04-22 09:49:14] User in voice channel: General
+[2025-04-22 09:49:14] Already playing, waiting 11 seconds
+[2025-04-22 09:49:17] Downloading https://www.youtube.com/watch?v=IC8qPpnD0uE (not in cache)
+[2025-04-22 09:49:17] Adding to queue: 50 Cent - Ayo Technology (Official Music Video) ft. Justin Timberlake
+[2025-04-22 09:49:21] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=EPo5wWmKEaI
+[2025-04-22 09:49:21] User in voice channel: General
+[2025-04-22 09:49:22] Downloading https://www.youtube.com/watch?v=EPo5wWmKEaI (not in cache)
+[2025-04-22 09:49:25] Downloading https://www.youtube.com/watch?v=w4s6H4ku6ZY (not in cache)
+[2025-04-22 09:49:28] Adding to queue: Justin Timberlake - What Goes Around...Comes Around (Short Version)
+[2025-04-22 09:49:29] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=zvCBSSwgtg4
+[2025-04-22 09:49:29] User in voice channel: General
+[2025-04-22 09:49:30] Already playing, waiting 9 seconds
+[2025-04-22 09:49:32] Adding to queue: Pitbull - Give Me Everything ft. Ne-Yo, Afrojack, Nayer
+[2025-04-22 09:49:37] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=cSnkWzZ7ZAA
+[2025-04-22 09:49:37] User in voice channel: General
+[2025-04-22 09:49:37] Already playing, waiting 11 seconds
+[2025-04-22 09:49:38] Adding to queue: Far East Movement - Like A G6 ft. The Cataracs, DEV
+[2025-04-22 09:49:39] Downloading https://www.youtube.com/watch?v=zvCBSSwgtg4 (not in cache)
+[2025-04-22 09:49:48] Downloading https://www.youtube.com/watch?v=cSnkWzZ7ZAA (not in cache)
+[2025-04-22 09:49:51] Adding to queue: The Lumineers - Ho Hey (Official Video)
+[2025-04-22 09:49:59] Adding to queue: Flo Rida - Whistle [Official Video]
+[2025-04-22 09:50:26] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=LefQdEMJP1I
+[2025-04-22 09:50:26] User in voice channel: General
+[2025-04-22 09:50:26] Already playing, waiting 11 seconds
+[2025-04-22 09:50:35] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=ila-hAUXR5U
+[2025-04-22 09:50:35] User in voice channel: General
+[2025-04-22 09:50:35] Already playing, waiting 14 seconds
+[2025-04-22 09:50:37] Downloading https://www.youtube.com/watch?v=LefQdEMJP1I (not in cache)
+[2025-04-22 09:50:42] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=4NRXx6U8ABQ
+[2025-04-22 09:50:42] User in voice channel: General
+[2025-04-22 09:50:42] Already playing, waiting 12 seconds
+[2025-04-22 09:50:46] Adding to queue: Pitbull - Hey Baby (Drop It To The Floor) ft. T-Pain
+[2025-04-22 09:50:48] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=kTJczUoc26U
+[2025-04-22 09:50:48] User in voice channel: General
+[2025-04-22 09:50:49] Already playing, waiting 7 seconds
+[2025-04-22 09:50:49] Downloading https://www.youtube.com/watch?v=ila-hAUXR5U (not in cache)
+[2025-04-22 09:50:54] Downloading https://www.youtube.com/watch?v=4NRXx6U8ABQ (not in cache)
+[2025-04-22 09:50:55] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=nwsewSMWIas
+[2025-04-22 09:50:55] User in voice channel: General
+[2025-04-22 09:50:56] Downloading https://www.youtube.com/watch?v=kTJczUoc26U (not in cache)
+[2025-04-22 09:50:56] Already playing, waiting 8 seconds
+[2025-04-22 09:51:01] Adding to queue: Kanye West - Flashing Lights ft. Dwele
+[2025-04-22 09:51:03] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=VbfpW0pbvaU
+[2025-04-22 09:51:03] User in voice channel: General
+[2025-04-22 09:51:03] Already playing, waiting 9 seconds
+[2025-04-22 09:51:04] Downloading https://www.youtube.com/watch?v=nwsewSMWIas (not in cache)
+[2025-04-22 09:51:06] Adding to queue: The Weeknd - Blinding Lights (Official Video)
+[2025-04-22 09:51:07] Adding to queue: The Kid LAROI, Justin Bieber - STAY (Official Video)
+[2025-04-22 09:51:10] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=e82VE8UtW8A
+[2025-04-22 09:51:10] User in voice channel: General
+[2025-04-22 09:51:10] Already playing, waiting 12 seconds
+[2025-04-22 09:51:12] Downloading https://www.youtube.com/watch?v=VbfpW0pbvaU (not in cache)
+[2025-04-22 09:51:15] Adding to queue: Alexandra Stan - Mr. Saxobeat (Official Video)
+[2025-04-22 09:51:16] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=mWRsgZuwf_8
+[2025-04-22 09:51:16] User in voice channel: General
+[2025-04-22 09:51:16] Already playing, waiting 11 seconds
+[2025-04-22 09:51:21] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=ktvTqknDobU
+[2025-04-22 09:51:21] User in voice channel: General
+[2025-04-22 09:51:22] Already playing, waiting 10 seconds
+[2025-04-22 09:51:22] Downloading https://www.youtube.com/watch?v=e82VE8UtW8A (not in cache)
+[2025-04-22 09:51:25] Adding to queue: Shawn Mendes - Stitches (Official Music Video)
+[2025-04-22 09:51:27] Downloading https://www.youtube.com/watch?v=mWRsgZuwf_8 (not in cache)
+[2025-04-22 09:51:28] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=fKopy74weus
+[2025-04-22 09:51:28] User in voice channel: General
+[2025-04-22 09:51:28] Already playing, waiting 13 seconds
+[2025-04-22 09:51:31] Adding to queue: Rihanna - Rude Boy
+[2025-04-22 09:51:32] Downloading https://www.youtube.com/watch?v=ktvTqknDobU (not in cache)
+[2025-04-22 09:51:33] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=X2BYmmTI04I
+[2025-04-22 09:51:33] User in voice channel: General
+[2025-04-22 09:51:34] Already playing, waiting 13 seconds
+[2025-04-22 09:51:39] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=HMUDVMiITOU
+[2025-04-22 09:51:39] User in voice channel: General
+[2025-04-22 09:51:39] Already playing, waiting 12 seconds
+[2025-04-22 09:51:39] Adding to queue: Imagine Dragons - Demons (Official Music Video)
+[2025-04-22 09:51:41] Downloading https://www.youtube.com/watch?v=fKopy74weus (not in cache)
+[2025-04-22 09:51:42] Adding to queue: Imagine Dragons - Radioactive
+[2025-04-22 09:51:47] Downloading https://www.youtube.com/watch?v=X2BYmmTI04I (not in cache)
+[2025-04-22 09:51:50] Adding to queue: Imagine Dragons - Thunder
+[2025-04-22 09:51:51] Downloading https://www.youtube.com/watch?v=HMUDVMiITOU (not in cache)
+[2025-04-22 09:51:59] Adding to queue: 5 Seconds of Summer - She Looks So Perfect
+[2025-04-22 09:52:01] Adding to queue: DJ Snake, Lil Jon - Turn Down for What
+[2025-04-22 23:32:47] Error in play_next: [0;31mERROR:[0m [youtube] uSD4vsh1zDA: Requested format is not available. Use --list-formats for a list of available formats
+[2025-04-22 23:33:27] Error in play_next: [0;31mERROR:[0m [youtube] KRaWnd3LJfs: Requested format is not available. Use --list-formats for a list of available formats
+[2025-04-22 23:33:53] Error in play_next: [0;31mERROR:[0m [youtube] hTWKbfoikeg: Requested format is not available. Use --list-formats for a list of available formats
+[2025-04-22 23:38:18] Error in play_next: [0;31mERROR:[0m [youtube] hTWKbfoikeg: Requested format is not available. Use --list-formats for a list of available formats
+[2025-05-14 00:30:15] Play command invoked by intenselol in LUCK with URL: https://www.youtube.com/watch?v=tqUUNMq71vk
+[2025-05-14 00:30:15] User in voice channel: 🍀 LUCK VC
+[2025-05-14 00:30:15] Connecting to voice channel...
+[2025-05-14 00:30:15] Connected to 🍀 LUCK VC
+[2025-05-14 00:30:15] Downloading https://www.youtube.com/watch?v=tqUUNMq71vk (not in cache)
+[2025-05-14 00:30:17] Critical error in play command: DownloadError: [0;31mERROR:[0m [youtube] tqUUNMq71vk: Requested format is not available. Use --list-formats for a list of available formats
+[2025-05-28 00:34:49] Play command invoked by aust100 in LUCK with URL: https://www.youtube.com/watch?v=ueLrb3-oVpY
+[2025-05-28 00:34:49] User in voice channel: 🍀 LUCK VC
+[2025-05-28 00:34:49] Connecting to voice channel...
+[2025-05-28 00:34:50] Connected to 🍀 LUCK VC
+[2025-05-28 00:34:51] Downloading https://www.youtube.com/watch?v=ueLrb3-oVpY (not in cache)
+[2025-05-28 00:34:52] Critical error in play command: DownloadError: [0;31mERROR:[0m [youtube] ueLrb3-oVpY: Requested format is not available. Use --list-formats for a list of available formats
+[2025-06-01 16:15:26] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=qN6aWdAR1k8
+[2025-06-01 16:15:26] User in voice channel: General
+[2025-06-01 16:15:26] Connecting to voice channel...
+[2025-06-01 16:15:28] Connected to General
+[2025-06-01 16:15:28] Downloading https://www.youtube.com/watch?v=qN6aWdAR1k8 (not in cache)
+[2025-06-01 16:15:30] Critical error in play command: DownloadError: [0;31mERROR:[0m [youtube] qN6aWdAR1k8: Requested format is not available. Use --list-formats for a list of available formats
+[2025-06-01 16:18:27] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=qN6aWdAR1k8
+[2025-06-01 16:18:27] User in voice channel: General
+[2025-06-01 16:18:27] Connecting to voice channel...
+[2025-06-01 16:18:29] Connected to General
+[2025-06-01 16:18:29] Downloading https://www.youtube.com/watch?v=qN6aWdAR1k8 (not in cache)
+[2025-06-01 16:18:44] Starting playback: Lil Yachty - Yacht Club (Audio) ft. Juice WRLD
+[2025-06-03 23:20:49] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=qN6aWdAR1k8
+[2025-06-03 23:20:49] User in voice channel: General
+[2025-06-03 23:20:49] Connecting to voice channel...
+[2025-06-03 23:20:50] Connected to General
+[2025-06-03 23:20:50] Using cached file for https://www.youtube.com/watch?v=qN6aWdAR1k8
+[2025-06-03 23:20:54] Starting playback: Lil Yachty - Yacht Club (Audio) ft. Juice WRLD
+[2025-07-16 17:56:10] Play command invoked by intenselol in LUCK with URL: https://www.youtube.com/watch?v=kPa7bsKwL-c
+[2025-07-16 17:56:10] User in voice channel: 🍀 LUCK
+[2025-07-16 17:56:10] Connecting to voice channel...
+[2025-07-16 17:56:37] Connected to 🍀 LUCK
+[2025-07-16 17:56:37] Critical error in play command: AttributeError: 'NoneType' object has no attribute 'is_playing'
+[2025-07-16 18:12:31] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=kPa7bsKwL-c
+[2025-07-16 18:12:31] User in voice channel: General
+[2025-07-16 18:12:31] Connecting to voice channel...
+[2025-07-16 18:12:31] Connected to General
+[2025-07-16 18:12:32] Downloading https://www.youtube.com/watch?v=kPa7bsKwL-c (not in cache)
+[2025-07-16 18:12:46] Starting playback: Lady Gaga, Bruno Mars - Die With A Smile (Official Music Video)
+[2025-07-16 18:13:27] Play command invoked by intenselol in LUCK with URL: https://www.youtube.com/watch?v=kPa7bsKwL-c
+[2025-07-16 18:13:27] User in voice channel: 🍀 LUCK
+[2025-07-16 18:13:27] Connecting to voice channel...
+[2025-07-21 12:17:56] Play command invoked by intenselol in INTENSE RUNS with URL: https://www.youtube.com/watch?v=YN0V9Nka-OM
+[2025-07-21 12:17:56] User in voice channel: queen vc
+[2025-07-21 12:17:56] Connecting to voice channel...
+[2025-07-21 12:23:57] Play command invoked by intenselol in INTENSE RUNS with URL: https://www.youtube.com/watch?v=YN0V9Nka-OM
+[2025-07-21 12:23:57] User in voice channel: queen vc
+[2025-07-21 12:23:57] Attempting to connect to voice channel...
+[2025-07-21 12:24:24] Successfully connected to queen vc
+[2025-07-21 12:24:24] Critical error in play command: AttributeError: 'NoneType' object has no attribute 'is_playing'
+[2025-07-21 12:26:55] Play command invoked by intenselol in INTENSE RUNS with URL: https://www.youtube.com/watch?v=YN0V9Nka-OM
+[2025-07-21 12:26:55] User in voice channel: queen vc
+[2025-07-21 12:26:55] Attempting to connect to voice channel...
+[2025-07-21 12:27:23] Unexpected error during connect: property 'voice_client' of 'Context' object has no setter
+[2025-07-21 12:32:27] Play command invoked by intenselol in INTENSE RUNS with URL: https://www.youtube.com/watch?v=YN0V9Nka-OM
+[2025-07-21 12:32:27] User in voice channel: queen vc
+[2025-07-21 12:32:27] Attempting to connect to voice channel...
+[2025-07-21 12:32:54] Successfully connected to queen vc
+[2025-07-21 12:32:54] Critical error in play command: AttributeError: 'MusicPlayer' object has no attribute 'DB_PATH'
+[2025-07-21 12:35:31] Play command invoked by intenselol in INTENSE RUNS with URL: https://www.youtube.com/watch?v=YN0V9Nka-OM
+[2025-07-21 12:35:31] User in voice channel: queen vc
+[2025-07-21 12:35:31] Attempting to connect to voice channel...
+[2025-07-21 12:35:59] Successfully connected to queen vc
+[2025-07-21 12:35:59] Downloading https://www.youtube.com/watch?v=YN0V9Nka-OM (not in cache or cache invalid)
+[2025-07-21 12:35:59] Critical error in play command: TypeError: YTDLSource.from_url() got an unexpected keyword argument 'ytdl'
+[2025-07-21 12:39:19] Play command invoked by intenselol in INTENSE RUNS with URL: https://www.youtube.com/watch?v=YN0V9Nka-OM
+[2025-07-21 12:39:19] User in voice channel: queen vc
+[2025-07-21 12:39:19] Attempting to connect to voice channel...
+[2025-07-21 12:39:47] Successfully connected to queen vc
+[2025-07-21 12:39:47] Downloading https://www.youtube.com/watch?v=YN0V9Nka-OM (not in cache or cache invalid)
+[2025-07-21 12:39:49] Critical error in play command: AttributeError: 'MusicPlayer' object has no attribute 'ytdl'
+[2025-07-21 12:47:19] Play command invoked by intenselol in INTENSE RUNS with URL: https://www.youtube.com/watch?v=YN0V9Nka-OM
+[2025-07-21 12:47:19] User in voice channel: queen vc
+[2025-07-21 12:47:19] Attempting to connect to voice channel...
+[2025-07-21 12:47:46] Successfully connected to queen vc
+[2025-07-21 12:47:46] Downloading https://www.youtube.com/watch?v=YN0V9Nka-OM (not in cache or cache invalid)
+[2025-07-21 12:47:47] Critical error in play command: AttributeError: 'MusicPlayer' object has no attribute 'ytdl'
+[2025-07-21 13:03:45] Play command invoked by intenselol in INTENSE RUNS with URL: https://www.youtube.com/watch?v=YN0V9Nka-OM
+[2025-07-21 13:03:45] User in voice channel: queen vc
+[2025-07-21 13:03:45] Attempting to connect to voice channel...
+[2025-07-21 13:04:12] Successfully connected to queen vc
+[2025-07-21 13:04:13] Downloading https://www.youtube.com/watch?v=YN0V9Nka-OM (not in cache or cache invalid)
+[2025-07-21 13:04:29] Critical error in play command: OperationalError: ON CONFLICT clause does not match any PRIMARY KEY or UNIQUE constraint
+[2025-07-21 13:12:20] Play command invoked by intenselol in INTENSE RUNS with URL: https://www.youtube.com/watch?v=YN0V9Nka-OM
+[2025-07-21 13:12:20] User in voice channel: queen vc
+[2025-07-21 13:12:20] Attempting to connect to voice channel...
+[2025-07-21 13:12:47] Successfully connected to queen vc
+[2025-07-21 13:12:47] Downloading https://www.youtube.com/watch?v=YN0V9Nka-OM (not in cache or cache invalid)
+[2025-07-21 13:12:52] Starting playback: Oasis - Better Man
+[2025-07-21 13:12:52] Critical error in play command: ClientException: Not connected to voice.
+[2025-07-21 13:18:42] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=YN0V9Nka-OM
+[2025-07-21 13:18:42] User in voice channel: General
+[2025-07-21 13:18:42] Attempting to connect to voice channel...
+[2025-07-21 13:19:09] Successfully connected to General
+[2025-07-21 13:19:09] Using cached file for https://www.youtube.com/watch?v=YN0V9Nka-OM
+[2025-07-21 13:19:13] Starting playback: Oasis - Better Man
+[2025-07-21 13:19:13] Critical error in play command: ClientException: Not connected to voice.
+[2025-07-21 13:23:02] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=YN0V9Nka-OM
+[2025-07-21 13:23:02] User in voice channel: General
+[2025-07-21 13:23:02] Attempting to connect to voice channel...
+[2025-07-21 13:23:30] Successfully connected to General
+[2025-07-21 13:23:30] DEBUG: Voice client reports NOT connected right before player creation.
+[2025-07-21 13:25:45] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=YN0V9Nka-OM
+[2025-07-21 13:25:45] User in voice channel: General
+[2025-07-21 13:25:45] Attempting to connect to voice channel...
+[2025-07-21 13:26:12] Successfully connected to General
+[2025-07-21 13:26:13] DEBUG: Voice client immediately disconnected after connect(). Aborting.
+[2025-07-21 13:32:39] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=YN0V9Nka-OM
+[2025-07-21 13:32:39] User in voice channel: General
+[2025-07-21 13:32:39] Attempting to connect to voice channel...
+[2025-07-21 13:33:07] Successfully connected to General
+[2025-07-21 13:33:07] DEBUG: Voice client immediately disconnected after connect(). Aborting.
+[2025-08-05 23:06:17] Play command invoked by intenselol in Intense GPQ with URL: https://www.youtube.com/watch?v=YN0V9Nka-OM
+[2025-08-05 23:06:17] User in voice channel: General
+[2025-08-05 23:06:17] Attempting to connect to voice channel...
+[2025-08-05 23:06:35] Successfully connected to General
+[2025-08-05 23:06:36] DEBUG: Voice client still connected after 0.5s delay.
+[2025-08-05 23:06:36] Using cached file for https://www.youtube.com/watch?v=YN0V9Nka-OM
+[2025-08-05 23:06:40] DEBUG: Cached filename: songs/youtube-YN0V9Nka-OM-Oasis_-_Better_Man.m4a
+[2025-08-05 23:06:40] DEBUG: Cached file 'songs/youtube-YN0V9Nka-OM-Oasis_-_Better_Man.m4a' exists and is readable.
+[2025-08-05 23:06:40] Starting playback: Oasis - Better Man
+[2025-08-05 23:06:40] DEBUG: Playback initiated successfully for Oasis - Better Man using file: songs/youtube-YN0V9Nka-OM-Oasis_-_Better_Man.m4a

@@ -20,9 +20,10 @@ UPSCALE_SMALL = False          # False = only shrink; True = allow gentle upscal
 MIN_HEIGHT_RATIO = 0.80       # if UPSCALE_SMALL=True, ensure at least 80% of viewport height
 MAX_HEIGHT_RATIO = 0.98       # when shrinking, keep a tiny margin (~98% max)
 
-# Body-centering params
-BOTTOM_FRAC = 0.50  # use bottom 50% of the sprite to find "body" center
-TRIM_FRAC   = 0.15  # trim 15% alpha mass from each side to ignore skinny outliers
+# Body-centering params (bottom-focused + peak-band)
+BOTTOM_FRAC = 0.50   # use bottom 50% of the sprite
+BAND_THRESH = 0.40   # keep columns whose alpha-sum >= 40% of the peak in that slice
+MIN_BAND_W  = 6      # ensure at least this many pixels in the band
 # ========================================================
 
 
@@ -92,14 +93,14 @@ class Info(commands.Cog):
             char_fit = char
         # ------------------------------------------------------------------
 
-        # ---- Robust body-centered X (ignore side outliers like weapons) ----
+        # ---- Body-centered X using a peak band in the bottom slice ----
         a = char_fit.split()[-1]
         w, h = a.size
 
         y0 = int(h * (1 - BOTTOM_FRAC))
         px = a.load()
 
-        # column alpha sums over bottom slice
+        # Column alpha sums over bottom slice
         col_sums = [0] * w
         for x in range(w):
             s = 0
@@ -107,32 +108,30 @@ class Info(commands.Cog):
                 s += px[x, y]
             col_sums[x] = s
 
-        total = sum(col_sums)
-        if total > 0:
-            # cumulative distribution across columns
-            target_left = total * TRIM_FRAC
-            target_right = total * (1 - TRIM_FRAC)
+        peak = max(col_sums) if col_sums else 0
+        if peak > 0:
+            thresh = int(peak * BAND_THRESH)
+            # Build a contiguous band around the peak maximum
+            peak_x = max(range(w), key=lambda i: col_sums[i])
+            left = peak_x
+            right = peak_x
 
-            cum = 0
-            left_idx = 0
-            for i, v in enumerate(col_sums):
-                cum += v
-                if cum >= target_left:
-                    left_idx = i
-                    break
+            # expand left
+            while left - 1 >= 0 and col_sums[left - 1] >= thresh:
+                left -= 1
+            # expand right
+            while right + 1 < w and col_sums[right + 1] >= thresh:
+                right += 1
 
-            cum = 0
-            right_idx = w - 1
-            for i in range(w - 1, -1, -1):
-                cum += col_sums[i]
-                if cum >= target_right:
-                    right_idx = i
-                    break
+            # ensure minimum width band
+            if right - left + 1 < MIN_BAND_W:
+                pad = (MIN_BAND_W - (right - left + 1)) // 2
+                left = max(0, left - pad)
+                right = min(w - 1, right + pad)
 
-            centroid_x = (left_idx + right_idx) / 2
+            centroid_x = (left + right) / 2
         else:
-            centroid_x = w / 2  # fallback if fully transparent
-        # --------------------------------------------------------------------
+            centroid_x = w / 2  # fallback if fully transparent (shouldn't happen)
 
         # Place so centroid lands at exact center of the viewport
         target_center_x = vx0 + v_w / 2
@@ -140,6 +139,7 @@ class Info(commands.Cog):
 
         # Clamp horizontally so image stays inside viewport
         paste_x = max(vx0, min(vx1 - char_fit.width, paste_x))
+        # ------------------------------------------------------------------
 
         # Bottom align
         paste_y = vy1 - char_fit.height - BOTTOM_MARGIN
@@ -230,7 +230,7 @@ class Info(commands.Cog):
         exp = soup.find("span", class_="exp")
         fame = soup.find("span", class_="fame")
         guild = soup.find("span", class_="guild")
-        partner = soup.find("span", class_="partner")
+        partner = soup.find("span", "partner")
 
         name = name.text.strip() if name else "Unknown"
         job = job.text.strip() if job else "Not found"

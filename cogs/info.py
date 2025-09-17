@@ -13,7 +13,7 @@ from assets.exp import level_exp
 # ====== CONFIG: match the galaxy window on box.png ======
 # (left, top, right, bottom) bounds of the arched window
 VIEWPORT = (28, 18, 160, 168)
-BOTTOM_MARGIN = 2  # small lift so feet aren't flush with bottom
+BOTTOM_MARGIN = 6  # small lift so feet aren't flush with bottom
 
 # Resize policy
 UPSCALE_SMALL = False          # False = only shrink; True = allow gentle upscaling
@@ -131,7 +131,9 @@ class Info(commands.Cog):
         paste_x = int(round(target_center_x - centroid_x))
 
         # Bottom align
-        paste_y = vy1 - char_fit.height - BOTTOM_MARGIN
+        # Bottom align with safe clearance inside the arch
+paste_y = vy1 - char_fit.height - BOTTOM_MARGIN
+paste_y = max(vy0, min(paste_y, vy1 - char_fit.height - BOTTOM_MARGIN))
 
         # Local arch mask at the paste rectangle (crop handles out-of-bounds by padding with 0)
         sprite_alpha = char_fit.split()[-1]

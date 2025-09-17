@@ -1,8 +1,11 @@
 myenv
 config
+config.py
 database.db
 cookies.txt
 .env
 venv
 .venv/
 .env.*
+
+config.py

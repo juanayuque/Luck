@@ -1,20 +1,26 @@
-import discord                      
-from discord import app_commands   
+import discord
+from discord import app_commands
 from discord.ext import commands
+
 import requests
 import re
 import io
 import os
 from bs4 import BeautifulSoup
 from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageChops
-from discord.ext import commands
 from assets.exp import level_exp
 
-# ====== CONFIG: tune this to match the galaxy window on box.png exactly ======
+# ====== CONFIG: match the galaxy window on box.png ======
 # (left, top, right, bottom) bounds of the arched window
 VIEWPORT = (28, 18, 160, 168)
-BOTTOM_MARGIN = 2  # lift the sprite slightly above the absolute bottom (pixels)
-# ============================================================================
+BOTTOM_MARGIN = 2  # small lift so feet aren't flush with bottom
+
+# Resize policy
+UPSCALE_SMALL = False          # False = only shrink; True = allow gentle upscaling
+MIN_HEIGHT_RATIO = 0.80       # if UPSCALE_SMALL=True, ensure at least 80% of viewport height
+MAX_HEIGHT_RATIO = 0.98       # when shrinking, keep a tiny margin (~98% max)
+# ========================================================
+
 
 class Info(commands.Cog):
     def __init__(self, bot):
@@ -54,8 +60,33 @@ class Info(commands.Cog):
         if bbox:
             char = char.crop(bbox)
 
-        # Fit inside viewport without distorting (no crop)
-        char_fit = ImageOps.contain(char, (v_w, v_h), method=Image.LANCZOS)
+        # --- Resize policy ---
+        vw, vh = v_w, v_h
+        scale_fit_w = vw / char.width
+        scale_fit_h = vh / char.height
+        scale_fit = min(scale_fit_w, scale_fit_h)
+
+        if char.width > vw or char.height > vh:
+            # Need to shrink; keep a small headroom via MAX_HEIGHT_RATIO
+            target_scale_h = (vh * MAX_HEIGHT_RATIO) / char.height
+            target_scale_w = (vw * MAX_HEIGHT_RATIO) / char.width
+            scale = min(scale_fit, target_scale_h, target_scale_w)
+        else:
+            if UPSCALE_SMALL:
+                # Gentle upscale floor to improve readability of tiny sprites
+                min_scale_h = (vh * MIN_HEIGHT_RATIO) / char.height
+                min_scale_w = (vw * MIN_HEIGHT_RATIO) / char.width
+                scale = max(1.0, min(min_scale_h, min_scale_w))
+            else:
+                scale = 1.0  # strict no-upscale
+
+        if abs(scale - 1.0) > 1e-6:
+            new_w = max(1, int(round(char.width * scale)))
+            new_h = max(1, int(round(char.height * scale)))
+            char_fit = char.resize((new_w, new_h), Image.LANCZOS)
+        else:
+            char_fit = char
+        # ---------------------
 
         # Bottom-align, center X within the viewport
         paste_x = vx0 + (v_w - char_fit.width) // 2

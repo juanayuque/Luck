@@ -13,9 +13,9 @@ mask = Image.new("L", (w, h), 0)
 draw = ImageDraw.Draw(mask)
 
 # Adjust these to match your arch position/size exactly
-arch_left = 28
-arch_top = 18
-arch_right = 140
+arch_left = 10
+arch_top = 10
+arch_right = 120
 arch_bottom = 168
 
 arch_w = arch_right - arch_left

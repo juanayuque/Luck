@@ -15,7 +15,7 @@ draw = ImageDraw.Draw(mask)
 # Adjust these to match your arch position/size exactly
 arch_left = 28
 arch_top = 18
-arch_right = 160
+arch_right = 140
 arch_bottom = 168
 
 arch_w = arch_right - arch_left

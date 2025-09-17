@@ -20,9 +20,10 @@ INSET_X = 2
 TOP_MARGIN = 4
 FOOTLINE_MARGIN = 6  # feet land this many px above arch’s bottom edge
 
-UPSCALE_SMALL = False
+# --- MODIFIED: Enabled upscaling for small character images ---
+UPSCALE_SMALL = True
 MAX_HEIGHT_RATIO = 1.00
-MIN_HEIGHT_RATIO = 0.90
+MIN_HEIGHT_RATIO = 0.90 # Upscale small images to at least 90% of the frame height/width
 
 BOTTOM_FRAC = 0.55
 BAND_THRESH = 0.40
@@ -67,14 +68,29 @@ class Info(commands.Cog):
         if bbox:
             char = char.crop(bbox)
 
-        # Ensure the character fits within the designated inner area.
-        # This calculates the scale factor to fit the image, using min(1.0, ...) 
-        # to prevent upscaling if the image is already smaller than the box.
-        scale = min(1.0, inner_w / char.width, inner_h / char.height)
+        # --- MODIFIED: Re-implemented robust scaling logic ---
+        # This logic correctly scales large images down and small images up
+        # without distorting the aspect ratio.
+        fit_scale = min(inner_w / char.width, inner_h / char.height)
+        
+        if char.width > inner_w or char.height > inner_h:
+            # Image is larger than the frame, so scale it down.
+            scale = fit_scale
+        else:
+            # Image is smaller than the frame.
+            if UPSCALE_SMALL:
+                # Upscale to fill at least MIN_HEIGHT_RATIO of the frame,
+                # but don't upscale so much that it overflows.
+                min_scale = (inner_h * MIN_HEIGHT_RATIO) / char.height
+                scale = max(1.0, min(min_scale, fit_scale))
+            else:
+                # Do not upscale if the flag is false.
+                scale = 1.0
 
         if abs(scale - 1.0) > 1e-6:
             new_w = max(1, int(round(char.width * scale)))
             new_h = max(1, int(round(char.height * scale)))
+            # This resize operation preserves the aspect ratio by using the single 'scale' factor.
             char = char.resize((new_w, new_h), Image.LANCZOS)
 
         a = char.split()[-1]

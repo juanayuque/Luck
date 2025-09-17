@@ -132,8 +132,8 @@ class Info(commands.Cog):
 
         # Bottom align
         # Bottom align with safe clearance inside the arch
-paste_y = vy1 - char_fit.height - BOTTOM_MARGIN
-paste_y = max(vy0, min(paste_y, vy1 - char_fit.height - BOTTOM_MARGIN))
+        paste_y = vy1 - char_fit.height - BOTTOM_MARGIN
+        paste_y = max(vy0, min(paste_y, vy1 - char_fit.height - BOTTOM_MARGIN))
 
         # Local arch mask at the paste rectangle (crop handles out-of-bounds by padding with 0)
         sprite_alpha = char_fit.split()[-1]

@@ -13,17 +13,20 @@ from assets.exp import level_exp
 # ====== CONFIG: match the galaxy window on box.png ======
 # (left, top, right, bottom) bounds of the arched window
 VIEWPORT = (28, 18, 160, 168)
-BOTTOM_MARGIN = 6  # small lift so feet aren't flush with bottom
+
+# Feet anchor line: how far ABOVE the viewport bottom should the feet land?
+FOOTLINE_MARGIN = 4  # pixels above vy1; increase if toes still touch the border
 
 # Resize policy
 UPSCALE_SMALL = False          # False = only shrink; True = allow gentle upscaling
 MIN_HEIGHT_RATIO = 0.90        # if UPSCALE_SMALL=True, target at least this much height
 MAX_HEIGHT_RATIO = 0.98        # when shrinking, keep tiny headroom (~98% max)
 
-# Body-centering params (bottom-focused + peak band)
-BOTTOM_FRAC = 0.50   # use bottom 50% of the sprite
-BAND_THRESH = 0.40   # keep columns >=40% of the peak alpha in that slice
-MIN_BAND_W  = 6      # ensure at least this band width
+# Body/feet detection params
+BOTTOM_FRAC = 0.55    # use bottom 55% of the sprite to analyze body/feet
+BAND_THRESH = 0.40    # keep columns >=40% of the peak alpha in that slice
+MIN_BAND_W  = 6       # ensure at least this band width
+ALPHA_T     = 32      # alpha threshold to consider a pixel "solid" for feet
 # ========================================================
 
 
@@ -92,10 +95,9 @@ class Info(commands.Cog):
             char_fit = char
         # ------------------------------------------------------------------
 
-        # ---- Body-centered X using a peak band in the bottom slice ----
+        # ---- Analyze bottom slice to find body band and the feet line ----
         a = char_fit.split()[-1]
         w, h = a.size
-
         y0 = int(h * (1 - BOTTOM_FRAC))
         px = a.load()
 
@@ -107,6 +109,7 @@ class Info(commands.Cog):
                 s += px[x, y]
             col_sums[x] = s
 
+        # Peak-based contiguous band around torso/legs
         peak = max(col_sums) if col_sums else 0
         if peak > 0:
             thresh = int(peak * BAND_THRESH)
@@ -123,17 +126,33 @@ class Info(commands.Cog):
                 right = min(w - 1, right + pad)
             centroid_x = (left + right) / 2
         else:
+            left, right = 0, w - 1
             centroid_x = w / 2  # fallback
+
+        # Feet detection: scan bottom-up within the body band, gather lowest solid pixels
+        foot_candidates = []
+        for x in range(left, right + 1):
+            for y in range(h - 1, y0 - 1, -1):
+                if px[x, y] >= ALPHA_T:  # "solid" pixel
+                    foot_candidates.append(y)
+                    break  # this column's lowest pixel found
+
+        if foot_candidates:
+            foot_y_local = sorted(foot_candidates)[len(foot_candidates) // 2]  # median for robustness
+        else:
+            foot_y_local = h - 1  # fallback if totally empty (unlikely)
         # ------------------------------------------------------------------
 
-        # Center: place centroid at the exact center of the viewport (NO clamp)
+        # ---- Placement: center by body band, anchor feet to fixed FOOTLINE ----
         target_center_x = vx0 + v_w / 2
         paste_x = int(round(target_center_x - centroid_x))
 
-        # Bottom align
-        # Bottom align with safe clearance inside the arch
-        paste_y = vy1 - char_fit.height - BOTTOM_MARGIN
-        paste_y = max(vy0, min(paste_y, vy1 - char_fit.height - BOTTOM_MARGIN))
+        footline_y = vy1 - FOOTLINE_MARGIN  # absolute y on the canvas
+        paste_y = footline_y - foot_y_local  # align sprite's feet to the footline
+
+        # No horizontal clamp (to avoid nudging wide poses); vertical overflow is fine,
+        # arch mask will clip anything outside the window.
+        # ------------------------------------------------------------------
 
         # Local arch mask at the paste rectangle (crop handles out-of-bounds by padding with 0)
         sprite_alpha = char_fit.split()[-1]

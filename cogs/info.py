@@ -15,7 +15,7 @@ from assets.exp import level_exp
 VIEWPORT = (28, 18, 160, 168)
 
 # Feet anchor line: how far ABOVE the viewport bottom should the feet land?
-FOOTLINE_MARGIN = 4  # pixels above vy1; increase if toes still touch the border
+FOOTLINE_MARGIN = 6  # increase if toes still graze the border
 
 # Resize policy
 UPSCALE_SMALL = False          # False = only shrink; True = allow gentle upscaling
@@ -23,10 +23,12 @@ MIN_HEIGHT_RATIO = 0.90        # if UPSCALE_SMALL=True, target at least this muc
 MAX_HEIGHT_RATIO = 0.98        # when shrinking, keep tiny headroom (~98% max)
 
 # Body/feet detection params
-BOTTOM_FRAC = 0.55    # use bottom 55% of the sprite to analyze body/feet
-BAND_THRESH = 0.40    # keep columns >=40% of the peak alpha in that slice
-MIN_BAND_W  = 6       # ensure at least this band width
-ALPHA_T     = 32      # alpha threshold to consider a pixel "solid" for feet
+BOTTOM_FRAC = 0.55    # analyze bottom 55% of sprite
+BAND_THRESH = 0.40    # keep columns >=40% of peak alpha in that slice
+MIN_BAND_W  = 8       # at least this many pixels in the body band
+ALPHA_T     = 32      # pixel considered "solid" for feet detection
+FEET_WINDOW_HALF = 6  # search feet only around band center ± this many px
+FEET_PERCENTILE = 0.90  # 90th percentile of lowest pixels ≈ near actual feet
 # ========================================================
 
 
@@ -95,7 +97,7 @@ class Info(commands.Cog):
             char_fit = char
         # ------------------------------------------------------------------
 
-        # ---- Analyze bottom slice to find body band and the feet line ----
+        # ---- Analyze bottom slice to find body band and feet line ----
         a = char_fit.split()[-1]
         w, h = a.size
         y0 = int(h * (1 - BOTTOM_FRAC))
@@ -120,6 +122,7 @@ class Info(commands.Cog):
                 left -= 1
             while right + 1 < w and col_sums[right + 1] >= thresh:
                 right += 1
+            # ensure a minimum band width
             if right - left + 1 < MIN_BAND_W:
                 pad = (MIN_BAND_W - (right - left + 1)) // 2
                 left = max(0, left - pad)
@@ -129,18 +132,27 @@ class Info(commands.Cog):
             left, right = 0, w - 1
             centroid_x = w / 2  # fallback
 
-        # Feet detection: scan bottom-up within the body band, gather lowest solid pixels
-        foot_candidates = []
-        for x in range(left, right + 1):
+        # Feet detection: only search a narrow window around the band center
+        cx = int(round(centroid_x))
+        half = max(FEET_WINDOW_HALF, (right - left + 1) // 3)
+        fx0 = max(left, cx - half)
+        fx1 = min(right, cx + half)
+
+        feet_y = []
+        for x in range(fx0, fx1 + 1):
             for y in range(h - 1, y0 - 1, -1):
                 if px[x, y] >= ALPHA_T:  # "solid" pixel
-                    foot_candidates.append(y)
-                    break  # this column's lowest pixel found
+                    feet_y.append(y)
+                    break  # take the lowest solid for this column
 
-        if foot_candidates:
-            foot_y_local = sorted(foot_candidates)[len(foot_candidates) // 2]  # median for robustness
+        if feet_y:
+            feet_y.sort()
+            idx = int(len(feet_y) * FEET_PERCENTILE)
+            if idx >= len(feet_y):
+                idx = len(feet_y) - 1
+            foot_y_local = feet_y[idx]  # near the lowest
         else:
-            foot_y_local = h - 1  # fallback if totally empty (unlikely)
+            foot_y_local = h - 1  # fallback
         # ------------------------------------------------------------------
 
         # ---- Placement: center by body band, anchor feet to fixed FOOTLINE ----
@@ -149,9 +161,6 @@ class Info(commands.Cog):
 
         footline_y = vy1 - FOOTLINE_MARGIN  # absolute y on the canvas
         paste_y = footline_y - foot_y_local  # align sprite's feet to the footline
-
-        # No horizontal clamp (to avoid nudging wide poses); vertical overflow is fine,
-        # arch mask will clip anything outside the window.
         # ------------------------------------------------------------------
 
         # Local arch mask at the paste rectangle (crop handles out-of-bounds by padding with 0)

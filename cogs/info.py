@@ -1,4 +1,4 @@
-import discord
+from discord import app_commands  
 import requests
 import re
 import io
@@ -69,7 +69,7 @@ class Info(commands.Cog):
         # Paste clipped to the arch only
         base_img.paste(char_fit, (paste_x, paste_y), final_mask)
 
-    @discord.app_commands.command(name="info", description="Fetch character info")
+    @app_commands.command(name="info", description="Fetch character info")
     async def fetch_info(self, interaction: discord.Interaction, custom_input: str):
         await interaction.response.defer()  # avoid timeout
 

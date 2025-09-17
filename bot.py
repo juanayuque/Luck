@@ -27,12 +27,11 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 # List the cogs you actually have in ./cogs (without .py)
 COGS_TO_LOAD = [
-    "music_cog",
     "clone",
     "welcome",
     "welcomeraw",
     "dress",
-    # add more here
+    "info", 
 ]
 
 async def load_cogs():

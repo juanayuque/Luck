@@ -16,13 +16,13 @@ VIEWPORT = (28, 18, 160, 168)
 BOTTOM_MARGIN = 2  # small lift so feet aren't flush with bottom
 
 # Resize policy
-UPSCALE_SMALL = True           # allow expansion of small sprites
-MIN_HEIGHT_RATIO = 0.92        # upscale small sprites to ~92% of viewport height
+UPSCALE_SMALL = False          # False = only shrink; True = allow gentle upscaling
+MIN_HEIGHT_RATIO = 0.90        # if UPSCALE_SMALL=True, target at least this much height
 MAX_HEIGHT_RATIO = 0.98        # when shrinking, keep tiny headroom (~98% max)
 
 # Body-centering params (bottom-focused + peak band)
-BOTTOM_FRAC = 0.50   # use bottom 50% of the sprite to detect body
-BAND_THRESH = 0.40   # keep columns >=40% of peak alpha in that slice
+BOTTOM_FRAC = 0.50   # use bottom 50% of the sprite
+BAND_THRESH = 0.40   # keep columns >=40% of the peak alpha in that slice
 MIN_BAND_W  = 6      # ensure at least this band width
 # ========================================================
 
@@ -48,24 +48,6 @@ class Info(commands.Cog):
         mdraw.pieslice([vx0, vy0, vx1, vy0 + 2 * r], start=180, end=360, fill=255)
         return mask
 
-    def _paste_with_mask_overflow_safe(self, base_img, sprite_rgba, mask_l, x, y):
-        """Paste sprite+mask at (x,y) allowing overflow; crops to base bounds."""
-        bw, bh = base_img.size
-        sw, sh = sprite_rgba.size
-
-        sx0, sy0, sx1, sy1 = x, y, x + sw, y + sh
-        ix0, iy0 = max(0, sx0), max(0, sy0)
-        ix1, iy1 = min(bw, sx1), min(bh, sy1)
-        if ix0 >= ix1 or iy0 >= iy1:
-            return  # fully out of bounds
-
-        # crop sprite and mask to intersection
-        crop_box_sprite = (ix0 - sx0, iy0 - sy0, ix1 - sx0, iy1 - sy0)
-        sprite_crop = sprite_rgba.crop(crop_box_sprite)
-        mask_crop = mask_l.crop((ix0, iy0, ix1, iy1))
-
-        base_img.paste(sprite_crop, (ix0, iy0), mask_crop)
-
     def _paste_character_clipped(self, base_img: Image.Image, char_img: Image.Image):
         # cache arch mask for this base size
         if self._arch_mask_cache is None or self._arch_mask_cache.size != base_img.size:
@@ -83,7 +65,7 @@ class Info(commands.Cog):
         if bbox:
             char = char.crop(bbox)
 
-        # --- Resize policy (shrink if too big; optionally expand small) ---
+        # --- Resize policy (only shrink unless gentle upscale enabled) ---
         vw, vh = v_w, v_h
         scale_fit_w = vw / char.width
         scale_fit_h = vh / char.height
@@ -96,7 +78,6 @@ class Info(commands.Cog):
             scale = min(scale_fit, target_scale_h, target_scale_w)
         else:
             if UPSCALE_SMALL:
-                # Gentle upscale floor to improve readability of tiny sprites
                 min_scale_h = (vh * MIN_HEIGHT_RATIO) / char.height
                 min_scale_w = (vw * MIN_HEIGHT_RATIO) / char.width
                 scale = max(1.0, min(min_scale_h, min_scale_w))
@@ -145,29 +126,22 @@ class Info(commands.Cog):
             centroid_x = w / 2  # fallback
         # ------------------------------------------------------------------
 
-        # Center: place centroid at the exact center of the viewport (no clamp)
+        # Center: place centroid at the exact center of the viewport (NO clamp)
         target_center_x = vx0 + v_w / 2
         paste_x = int(round(target_center_x - centroid_x))
 
         # Bottom align
         paste_y = vy1 - char_fit.height - BOTTOM_MARGIN
 
-        # Build final mask = sprite alpha × arch mask (same size as base)
+        # Local arch mask at the paste rectangle (crop handles out-of-bounds by padding with 0)
         sprite_alpha = char_fit.split()[-1]
-        # start with a blank same-size mask and paste sprite alpha into position
-        full_sprite_mask = Image.new("L", base_img.size, 0)
-        self._paste_with_mask_overflow_safe(
-            full_sprite_mask,
-            Image.merge("RGBA", [sprite_alpha, sprite_alpha, sprite_alpha, sprite_alpha]),
-            sprite_alpha,
-            paste_x,
-            paste_y,
+        local_arch = self._arch_mask_cache.crop(
+            (paste_x, paste_y, paste_x + char_fit.width, paste_y + char_fit.height)
         )
-        # multiply with arch mask (same base size) to confine to the window
-        final_mask_full = ImageChops.multiply(full_sprite_mask, self._arch_mask_cache)
+        final_mask = ImageChops.multiply(sprite_alpha, local_arch)
 
-        # Paste sprite using overflow-safe crop (no clamp)
-        self._paste_with_mask_overflow_safe(base_img, char_fit, final_mask_full, paste_x, paste_y)
+        # Paste (Pillow supports negative paste coords; off-canvas is discarded)
+        base_img.paste(char_fit, (paste_x, paste_y), final_mask)
 
     @app_commands.command(name="info", description="Fetch character info")
     async def fetch_info(self, interaction: discord.Interaction, custom_input: str):

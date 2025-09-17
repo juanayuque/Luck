@@ -9,3 +9,11 @@ venv
 .env.*
 
 config.py
+
+# Secrets
+.env
+.env.*
+config.py
+# Venv
+venv/
+.venv/

@@ -16,14 +16,14 @@ VIEWPORT = (28, 18, 160, 168)
 BOTTOM_MARGIN = 2  # small lift so feet aren't flush with bottom
 
 # Resize policy
-UPSCALE_SMALL = False          # False = only shrink; True = allow gentle upscaling
-MIN_HEIGHT_RATIO = 0.80       # if UPSCALE_SMALL=True, ensure at least 80% of viewport height
-MAX_HEIGHT_RATIO = 0.98       # when shrinking, keep a tiny margin (~98% max)
+UPSCALE_SMALL = True           # allow expansion of small sprites
+MIN_HEIGHT_RATIO = 0.92        # upscale small sprites to ~92% of viewport height
+MAX_HEIGHT_RATIO = 0.98        # when shrinking, keep tiny headroom (~98% max)
 
-# Body-centering params (bottom-focused + peak-band)
-BOTTOM_FRAC = 0.50   # use bottom 50% of the sprite
-BAND_THRESH = 0.40   # keep columns whose alpha-sum >= 40% of the peak in that slice
-MIN_BAND_W  = 6      # ensure at least this many pixels in the band
+# Body-centering params (bottom-focused + peak band)
+BOTTOM_FRAC = 0.50   # use bottom 50% of the sprite to detect body
+BAND_THRESH = 0.40   # keep columns >=40% of peak alpha in that slice
+MIN_BAND_W  = 6      # ensure at least this band width
 # ========================================================
 
 
@@ -48,6 +48,24 @@ class Info(commands.Cog):
         mdraw.pieslice([vx0, vy0, vx1, vy0 + 2 * r], start=180, end=360, fill=255)
         return mask
 
+    def _paste_with_mask_overflow_safe(self, base_img, sprite_rgba, mask_l, x, y):
+        """Paste sprite+mask at (x,y) allowing overflow; crops to base bounds."""
+        bw, bh = base_img.size
+        sw, sh = sprite_rgba.size
+
+        sx0, sy0, sx1, sy1 = x, y, x + sw, y + sh
+        ix0, iy0 = max(0, sx0), max(0, sy0)
+        ix1, iy1 = min(bw, sx1), min(bh, sy1)
+        if ix0 >= ix1 or iy0 >= iy1:
+            return  # fully out of bounds
+
+        # crop sprite and mask to intersection
+        crop_box_sprite = (ix0 - sx0, iy0 - sy0, ix1 - sx0, iy1 - sy0)
+        sprite_crop = sprite_rgba.crop(crop_box_sprite)
+        mask_crop = mask_l.crop((ix0, iy0, ix1, iy1))
+
+        base_img.paste(sprite_crop, (ix0, iy0), mask_crop)
+
     def _paste_character_clipped(self, base_img: Image.Image, char_img: Image.Image):
         # cache arch mask for this base size
         if self._arch_mask_cache is None or self._arch_mask_cache.size != base_img.size:
@@ -65,7 +83,7 @@ class Info(commands.Cog):
         if bbox:
             char = char.crop(bbox)
 
-        # --- Resize policy (only shrink unless gentle upscale enabled) ---
+        # --- Resize policy (shrink if too big; optionally expand small) ---
         vw, vh = v_w, v_h
         scale_fit_w = vw / char.width
         scale_fit_h = vh / char.height
@@ -111,47 +129,45 @@ class Info(commands.Cog):
         peak = max(col_sums) if col_sums else 0
         if peak > 0:
             thresh = int(peak * BAND_THRESH)
-            # Build a contiguous band around the peak maximum
             peak_x = max(range(w), key=lambda i: col_sums[i])
             left = peak_x
             right = peak_x
-
-            # expand left
             while left - 1 >= 0 and col_sums[left - 1] >= thresh:
                 left -= 1
-            # expand right
             while right + 1 < w and col_sums[right + 1] >= thresh:
                 right += 1
-
-            # ensure minimum width band
             if right - left + 1 < MIN_BAND_W:
                 pad = (MIN_BAND_W - (right - left + 1)) // 2
                 left = max(0, left - pad)
                 right = min(w - 1, right + pad)
-
             centroid_x = (left + right) / 2
         else:
-            centroid_x = w / 2  # fallback if fully transparent (shouldn't happen)
+            centroid_x = w / 2  # fallback
+        # ------------------------------------------------------------------
 
-        # Place so centroid lands at exact center of the viewport
+        # Center: place centroid at the exact center of the viewport (no clamp)
         target_center_x = vx0 + v_w / 2
         paste_x = int(round(target_center_x - centroid_x))
-
-        # Clamp horizontally so image stays inside viewport
-        paste_x = max(vx0, min(vx1 - char_fit.width, paste_x))
-        # ------------------------------------------------------------------
 
         # Bottom align
         paste_y = vy1 - char_fit.height - BOTTOM_MARGIN
 
-        # Clip to arch
+        # Build final mask = sprite alpha × arch mask (same size as base)
         sprite_alpha = char_fit.split()[-1]
-        local_arch = self._arch_mask_cache.crop(
-            (paste_x, paste_y, paste_x + char_fit.width, paste_y + char_fit.height)
+        # start with a blank same-size mask and paste sprite alpha into position
+        full_sprite_mask = Image.new("L", base_img.size, 0)
+        self._paste_with_mask_overflow_safe(
+            full_sprite_mask,
+            Image.merge("RGBA", [sprite_alpha, sprite_alpha, sprite_alpha, sprite_alpha]),
+            sprite_alpha,
+            paste_x,
+            paste_y,
         )
-        final_mask = ImageChops.multiply(sprite_alpha, local_arch)
+        # multiply with arch mask (same base size) to confine to the window
+        final_mask_full = ImageChops.multiply(full_sprite_mask, self._arch_mask_cache)
 
-        base_img.paste(char_fit, (paste_x, paste_y), final_mask)
+        # Paste sprite using overflow-safe crop (no clamp)
+        self._paste_with_mask_overflow_safe(base_img, char_fit, final_mask_full, paste_x, paste_y)
 
     @app_commands.command(name="info", description="Fetch character info")
     async def fetch_info(self, interaction: discord.Interaction, custom_input: str):
@@ -230,7 +246,7 @@ class Info(commands.Cog):
         exp = soup.find("span", class_="exp")
         fame = soup.find("span", class_="fame")
         guild = soup.find("span", class_="guild")
-        partner = soup.find("span", "partner")
+        partner = soup.find("span", class_="partner")
 
         name = name.text.strip() if name else "Unknown"
         job = job.text.strip() if job else "Not found"

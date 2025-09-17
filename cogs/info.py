@@ -20,10 +20,10 @@ INSET_X = 2
 TOP_MARGIN = 4
 FOOTLINE_MARGIN = 6  # feet land this many px above arch’s bottom edge
 
-# --- MODIFIED: Enabled upscaling for small character images ---
-UPSCALE_SMALL = True
+# --- MODIFIED: Disabled upscaling for small character images ---
+UPSCALE_SMALL = False
 MAX_HEIGHT_RATIO = 1.00
-MIN_HEIGHT_RATIO = 0.90 # Upscale small images to at least 90% of the frame height/width
+MIN_HEIGHT_RATIO = 0.90
 
 BOTTOM_FRAC = 0.55
 BAND_THRESH = 0.40
@@ -68,9 +68,6 @@ class Info(commands.Cog):
         if bbox:
             char = char.crop(bbox)
 
-        # --- MODIFIED: Re-implemented robust scaling logic ---
-        # This logic correctly scales large images down and small images up
-        # without distorting the aspect ratio.
         fit_scale = min(inner_w / char.width, inner_h / char.height)
         
         if char.width > inner_w or char.height > inner_h:
@@ -79,8 +76,7 @@ class Info(commands.Cog):
         else:
             # Image is smaller than the frame.
             if UPSCALE_SMALL:
-                # Upscale to fill at least MIN_HEIGHT_RATIO of the frame,
-                # but don't upscale so much that it overflows.
+                # Upscale logic (currently disabled).
                 min_scale = (inner_h * MIN_HEIGHT_RATIO) / char.height
                 scale = max(1.0, min(min_scale, fit_scale))
             else:
@@ -90,7 +86,6 @@ class Info(commands.Cog):
         if abs(scale - 1.0) > 1e-6:
             new_w = max(1, int(round(char.width * scale)))
             new_h = max(1, int(round(char.height * scale)))
-            # This resize operation preserves the aspect ratio by using the single 'scale' factor.
             char = char.resize((new_w, new_h), Image.LANCZOS)
 
         a = char.split()[-1]
@@ -149,7 +144,7 @@ class Info(commands.Cog):
         paste_y = footline_y - foot_y_local
 
         paste_x = max(inner_x0, min(inner_x1 - w, paste_x))
-        paste_y = max(inner_y0, min(inner_y1 - foot_y_local, paste_y))
+        paste_y = max(inner_y0, min(inner_y1 - h, paste_y))
 
         sprite_alpha = char.split()[-1]
         arch_crop = arch_mask.crop((paste_x, paste_y, paste_x + w, paste_y + h))

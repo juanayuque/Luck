@@ -89,7 +89,7 @@ class Info(commands.Cog):
         # ---------------------
 
         # Bottom-align, center X within the viewport
-        OFFSET_LEFT = 15  # tweak this number as needed (positive = more left)
+        OFFSET_LEFT = 25  # tweak this number as needed (positive = more left)
 
         paste_x = vx0 + (v_w - char_fit.width) // 2 - OFFSET_LEFT
         paste_y = vy1 - char_fit.height - BOTTOM_MARGIN

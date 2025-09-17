@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 # ignore Python build and cache
@@ -29,3 +30,24 @@ cogs/__pycache__/play.cpython-312.pyc
 cogs/__pycache__/dress.cpython-312.pyc
 __pycache__/config.cpython-312.pyc
 database.db
+=======
+myenv
+config
+config.py
+database.db
+cookies.txt
+.env
+venv
+.venv/
+.env.*
+
+config.py
+
+# Secrets
+.env
+.env.*
+config.py
+# Venv
+venv/
+.venv/
+>>>>>>> ea3573f54e1cfc10898f49c986e9d69a733a7cdb

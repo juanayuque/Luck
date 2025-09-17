@@ -1,5 +1,21 @@
-myenv
-config
+
+
+# ignore Python build and cache
+__pycache__/
+*.py[cod]
+
+# ignore media & DB
+songs/
 database.db
+music_bot.log
 cookies.txt
+
+# virtualenv
+venv/
+.venv/
+myenv
+
+# secrets
 .env
+.env.*
+config.py

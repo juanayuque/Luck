@@ -44,65 +44,89 @@ class Info(commands.Cog):
         return mask
 
     def _paste_character_clipped(self, base_img: Image.Image, char_img: Image.Image):
-        # cache arch mask for this base size
-        if self._arch_mask_cache is None or self._arch_mask_cache.size != base_img.size:
-            self._arch_mask_cache = self._build_arch_mask(base_img.size, VIEWPORT)
+    if self._arch_mask_cache is None or self._arch_mask_cache.size != base_img.size:
+        self._arch_mask_cache = self._build_arch_mask(base_img.size, VIEWPORT)
 
-        vx0, vy0, vx1, vy1 = VIEWPORT
-        v_w, v_h = (vx1 - vx0), (vy1 - vy0)
+    vx0, vy0, vx1, vy1 = VIEWPORT
+    v_w, v_h = (vx1 - vx0), (vy1 - vy0)
 
-        # Normalize sprite (fix EXIF orientation, force RGBA)
-        char = ImageOps.exif_transpose(char_img.convert("RGBA"))
+    # Normalize sprite
+    char = ImageOps.exif_transpose(char_img.convert("RGBA"))
 
-        # Trim transparent padding using alpha
-        alpha = char.split()[-1]
-        bbox = alpha.getbbox() or char.getbbox()
-        if bbox:
-            char = char.crop(bbox)
+    # Trim transparent padding using alpha
+    alpha = char.split()[-1]
+    bbox = alpha.getbbox() or char.getbbox()
+    if bbox:
+        char = char.crop(bbox)
 
-        # --- Resize policy ---
-        vw, vh = v_w, v_h
-        scale_fit_w = vw / char.width
-        scale_fit_h = vh / char.height
-        scale_fit = min(scale_fit_w, scale_fit_h)
+    # --- Resize policy (only shrink unless you enable gentle upscale) ---
+    vw, vh = v_w, v_h
+    scale_fit_w = vw / char.width
+    scale_fit_h = vh / char.height
+    scale_fit = min(scale_fit_w, scale_fit_h)
 
-        if char.width > vw or char.height > vh:
-            # Need to shrink; keep a small headroom via MAX_HEIGHT_RATIO
-            target_scale_h = (vh * MAX_HEIGHT_RATIO) / char.height
-            target_scale_w = (vw * MAX_HEIGHT_RATIO) / char.width
-            scale = min(scale_fit, target_scale_h, target_scale_w)
+    UPSCALE_SMALL = False
+    MIN_HEIGHT_RATIO = 0.80
+    MAX_HEIGHT_RATIO = 0.98
+
+    if char.width > vw or char.height > vh:
+        target_scale_h = (vh * MAX_HEIGHT_RATIO) / char.height
+        target_scale_w = (vw * MAX_HEIGHT_RATIO) / char.width
+        scale = min(scale_fit, target_scale_h, target_scale_w)
+    else:
+        if UPSCALE_SMALL:
+            min_scale_h = (vh * MIN_HEIGHT_RATIO) / char.height
+            min_scale_w = (vw * MIN_HEIGHT_RATIO) / char.width
+            scale = max(1.0, min(min_scale_h, min_scale_w))
         else:
-            if UPSCALE_SMALL:
-                # Gentle upscale floor to improve readability of tiny sprites
-                min_scale_h = (vh * MIN_HEIGHT_RATIO) / char.height
-                min_scale_w = (vw * MIN_HEIGHT_RATIO) / char.width
-                scale = max(1.0, min(min_scale_h, min_scale_w))
-            else:
-                scale = 1.0  # strict no-upscale
+            scale = 1.0
 
-        if abs(scale - 1.0) > 1e-6:
-            new_w = max(1, int(round(char.width * scale)))
-            new_h = max(1, int(round(char.height * scale)))
-            char_fit = char.resize((new_w, new_h), Image.LANCZOS)
-        else:
-            char_fit = char
-        # ---------------------
+    if abs(scale - 1.0) > 1e-6:
+        new_w = max(1, int(round(char.width * scale)))
+        new_h = max(1, int(round(char.height * scale)))
+        char_fit = char.resize((new_w, new_h), Image.LANCZOS)
+    else:
+        char_fit = char
+    # -------------------------------------------------------------------
 
-        # Bottom-align, center X within the viewport
-        OFFSET_LEFT = 25  # tweak this number as needed (positive = more left)
+    # ---- Bottom-weighted centroid to ignore off-body items (like weapons) ----
+    a = char_fit.split()[-1]
+    w, h = a.size
+    bottom_frac = 0.45  # use bottom 45% of the sprite to find "body" center
+    y0 = int(h * (1 - bottom_frac))
+    px = a.load()
+    col_sums = [0] * w
+    for x in range(w):
+        s = 0
+        for y in range(y0, h):
+            s += px[x, y]
+        col_sums[x] = s
+    total = sum(col_sums)
+    if total > 0:
+        centroid_x = sum(x * col_sums[x] for x in range(w)) / total
+    else:
+        centroid_x = w / 2  # fallback
+    # Small bias if you still want them nudged left a touch
+    BODY_CENTER_BIAS = 2  # pixels; increase to shift further left
+    target_center_x = vx0 + v_w / 2 - BODY_CENTER_BIAS
 
-        paste_x = vx0 + (v_w - char_fit.width) // 2 - OFFSET_LEFT
-        paste_y = vy1 - char_fit.height - BOTTOM_MARGIN
+    paste_x = int(round(target_center_x - centroid_x))
+    # Clamp to viewport horizontally so nothing gets cut off by the arch edges
+    paste_x = max(vx0, min(vx1 - char_fit.width, paste_x))
+    # --------------------------------------------------------------------------
 
-        # Per-sprite mask = sprite alpha × local arch area
-        sprite_alpha = char_fit.split()[-1]
-        local_arch = self._arch_mask_cache.crop(
-            (paste_x, paste_y, paste_x + char_fit.width, paste_y + char_fit.height)
-        )
-        final_mask = ImageChops.multiply(sprite_alpha, local_arch)
+    # Bottom align
+    paste_y = vy1 - char_fit.height - BOTTOM_MARGIN
 
-        # Paste clipped to the arch only
-        base_img.paste(char_fit, (paste_x, paste_y), final_mask)
+    # Clip to arch
+    sprite_alpha = char_fit.split()[-1]
+    local_arch = self._arch_mask_cache.crop(
+        (paste_x, paste_y, paste_x + char_fit.width, paste_y + char_fit.height)
+    )
+    final_mask = ImageChops.multiply(sprite_alpha, local_arch)
+
+    base_img.paste(char_fit, (paste_x, paste_y), final_mask)
+
 
     @app_commands.command(name="info", description="Fetch character info")
     async def fetch_info(self, interaction: discord.Interaction, custom_input: str):

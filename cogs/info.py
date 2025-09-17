@@ -20,8 +20,9 @@ UPSCALE_SMALL = False          # False = only shrink; True = allow gentle upscal
 MIN_HEIGHT_RATIO = 0.80       # if UPSCALE_SMALL=True, ensure at least 80% of viewport height
 MAX_HEIGHT_RATIO = 0.98       # when shrinking, keep a tiny margin (~98% max)
 
-# Horizontal bias (positive shifts left, negative shifts right)
-BODY_CENTER_BIAS = 2
+# Body-centering params
+BOTTOM_FRAC = 0.50  # use bottom 50% of the sprite to find "body" center
+TRIM_FRAC   = 0.15  # trim 15% alpha mass from each side to ignore skinny outliers
 # ========================================================
 
 
@@ -91,31 +92,54 @@ class Info(commands.Cog):
             char_fit = char
         # ------------------------------------------------------------------
 
-        # ---- Bottom-weighted centroid to ignore off-body items (weapons) ----
+        # ---- Robust body-centered X (ignore side outliers like weapons) ----
         a = char_fit.split()[-1]
         w, h = a.size
-        bottom_frac = 0.45  # use bottom 45% of the sprite to find "body" center
-        y0 = int(h * (1 - bottom_frac))
+
+        y0 = int(h * (1 - BOTTOM_FRAC))
         px = a.load()
+
+        # column alpha sums over bottom slice
         col_sums = [0] * w
         for x in range(w):
             s = 0
             for y in range(y0, h):
                 s += px[x, y]
             col_sums[x] = s
+
         total = sum(col_sums)
         if total > 0:
-            centroid_x = sum(x * col_sums[x] for x in range(w)) / total
-        else:
-            centroid_x = w / 2  # fallback if fully transparent (shouldn't happen)
+            # cumulative distribution across columns
+            target_left = total * TRIM_FRAC
+            target_right = total * (1 - TRIM_FRAC)
 
-        # target center (slightly biased left)
-        target_center_x = vx0 + v_w / 2 - BODY_CENTER_BIAS
+            cum = 0
+            left_idx = 0
+            for i, v in enumerate(col_sums):
+                cum += v
+                if cum >= target_left:
+                    left_idx = i
+                    break
+
+            cum = 0
+            right_idx = w - 1
+            for i in range(w - 1, -1, -1):
+                cum += col_sums[i]
+                if cum >= target_right:
+                    right_idx = i
+                    break
+
+            centroid_x = (left_idx + right_idx) / 2
+        else:
+            centroid_x = w / 2  # fallback if fully transparent
+        # --------------------------------------------------------------------
+
+        # Place so centroid lands at exact center of the viewport
+        target_center_x = vx0 + v_w / 2
         paste_x = int(round(target_center_x - centroid_x))
 
         # Clamp horizontally so image stays inside viewport
         paste_x = max(vx0, min(vx1 - char_fit.width, paste_x))
-        # ----------------------------------------------------------------------
 
         # Bottom align
         paste_y = vy1 - char_fit.height - BOTTOM_MARGIN

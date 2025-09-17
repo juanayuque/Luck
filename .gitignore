@@ -19,3 +19,13 @@ myenv
 .env
 .env.*
 config.py
+songs/youtube-Soa3gO7tL-c-Green_Day_-_Boulevard_Of_Broken_Dreams_Official_Music_Video_4K_Upgrade.webm
+songs/youtube-iI34LYmJ1Fs-Juice_WRLD_-_Robbery_Official_Music_Video.webm
+songs/youtube-hTWKbfoikeg-Nirvana_-_Smells_Like_Teen_Spirit_Official_Music_Video.webm
+songs/youtube-H58vbez_m4E-Kendrick_Lamar_-_Not_Like_Us.webm
+cogs/__pycache__/welcomeraw.cpython-312.pyc
+cogs/__pycache__/welcome.cpython-312.pyc
+cogs/__pycache__/play.cpython-312.pyc
+cogs/__pycache__/dress.cpython-312.pyc
+__pycache__/config.cpython-312.pyc
+database.db

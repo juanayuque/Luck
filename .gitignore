@@ -3,3 +3,6 @@ config
 database.db
 cookies.txt
 .env
+venv
+.venv/
+.env.*
